@@ -8,7 +8,7 @@ import { CommonService } from './common.service';
 export interface AuthResponseData {
   status: boolean;
   message: string;
-  data: string;
+  data: {user: any, token: string};
 }
 
 
