@@ -20,10 +20,18 @@ export class AuthService {
   private http = inject(HttpClient);
   private router = inject(Router);
   private commonService = inject(CommonService);
-
-
+  private TOKEN_KEY = 'auth_token';
+  getToken(): string | null {
+    return localStorage.getItem(this.TOKEN_KEY);
+  }
+  setToken(token: string): void {
+    localStorage.setItem(this.TOKEN_KEY, token);
+  }
   login(loginData: any) {
       return this.http.post<AuthResponseData>(this.commonService.getAPI() + '/login', loginData);
+  }
+  logout(): void {
+    localStorage.removeItem(this.TOKEN_KEY);
   }
 
 }
