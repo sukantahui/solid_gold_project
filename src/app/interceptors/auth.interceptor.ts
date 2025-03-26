@@ -6,8 +6,8 @@ import { Router } from '@angular/router';
 
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
   const authService = inject(AuthService);
-  // const authToken = authService.getToken();
-  const authToken = "xxxxxxxx";
+  const authToken = authService.getToken();
+  // const authToken = "xxxxxxxx";
   const router = inject(Router);
   const authReq =req.clone({ setHeaders: { Authorization: `Bearer ${authToken}` } })
 

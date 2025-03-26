@@ -21,17 +21,30 @@ export class AuthService {
   private router = inject(Router);
   private commonService = inject(CommonService);
   private TOKEN_KEY = 'auth_token';
+  private TOKEN_USER = 'auth_user';
   getToken(): string | null {
     return localStorage.getItem(this.TOKEN_KEY);
+  }
+  getUser(): any | null {
+    return JSON.stringify(localStorage.getItem(this.TOKEN_USER));
   }
   setToken(token: string): void {
     localStorage.setItem(this.TOKEN_KEY, token);
   }
+  setUser(user: any){
+    localStorage.setItem(this.TOKEN_USER, JSON.stringify(user));
+  }
   login(loginData: any) {
       return this.http.post<AuthResponseData>(this.commonService.getAPI() + '/login', loginData);
   }
-  logout(): void {
+  logout(){
+    return this.http.post<AuthResponseData>(this.commonService.getAPI() + '/logout',{});
+  }
+  removeToken(){
     localStorage.removeItem(this.TOKEN_KEY);
+  }
+  removeUser(){
+    localStorage.removeItem(this.TOKEN_USER);
   }
 
 }

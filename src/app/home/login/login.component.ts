@@ -43,8 +43,8 @@ export class LoginComponent {
 
             // Store Token if exists
             if (response?.data?.token) {
-              localStorage.setItem('token', response.data.token);
-              localStorage.setItem('user', response.data.user);
+              this.authService.setToken(response.data.token);
+              this.authService.setUser(response.data.user);
               this.router.navigate(['/admin']);
             } else {
               //user ID or password is incorrect
