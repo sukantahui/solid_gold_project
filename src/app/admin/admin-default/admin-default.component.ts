@@ -12,10 +12,9 @@ export class AdminDefaultComponent {
   private customerService = inject(CustomerService);
   private router = inject(Router);
   getCustomers() {
-    this.router.navigate(['/logout']);
-    // this.customerService.fetchCustomers().subscribe((response: any) => {
-    //   console.log('Customers:', response);
-    // });
+    this.customerService.fetchCustomers().subscribe((response: any) => {
+      console.log('Customers:', response);
+    });
   }
 
 }

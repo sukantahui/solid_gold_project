@@ -16,7 +16,7 @@ export class MenuAdminComponent {
       console.log('Logout:', response);
       this.authService.removeToken();
       this,this.authService.removeUser();
-      this.router.navigate(['/logout']);
+      this.router.navigate(['/home']);
     });
 
   }
