@@ -28,7 +28,7 @@
           </li>
         </ul>
         <form class="d-flex">
-          <a class="btn btn-outline-success" routerLink="login" routerLinkActive="active">Login</a>
+            <a class="btn btn-outline-success" routerLink="login" routerLinkActive="active" [class.disabled]="(currentRoute$ | async) === '/home/login'" [attr.aria-disabled]="(currentRoute$ | async) === '/home/login'">Login</a>
         </form>
       </div>
     </div>
