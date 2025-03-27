@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { CommonService } from './common.service';
+import { BehaviorSubject } from 'rxjs';
 
 export interface AuthResponseData {
   status: boolean;
@@ -18,6 +19,28 @@ export class AuthService {
   private commonService = inject(CommonService);
   private TOKEN_KEY = 'auth_token';
   private TOKEN_USER = 'auth_user';
+
+
+  private isAuthenticatedSubject = new BehaviorSubject<boolean>(false);
+  public isAuthenticated$ = this.isAuthenticatedSubject.asObservable();
+
+  // Method to check current auth state
+  public isAuthenticated(): boolean {
+    return this.isAuthenticatedSubject.value;
+  }
+
+  // Call this whenever auth state changes
+  private updateAuthState(): void {
+    const token = localStorage.getItem('auth_token');
+    this.isAuthenticatedSubject.next(!!token);
+  }
+
+  checkAuthentication() {
+    const token = this.getToken();
+    const isAuthenticated = !!token;
+    this.isAuthenticatedSubject.next(isAuthenticated);
+    return isAuthenticated;
+  }
   getToken(): string | null {
     return localStorage.getItem(this.TOKEN_KEY);
   }
@@ -30,9 +53,11 @@ export class AuthService {
   }
   setToken(token: string): void {
     localStorage.setItem(this.TOKEN_KEY, token);
+    this.checkAuthentication();
   }
   setUser(user: any) {
     localStorage.setItem(this.TOKEN_USER, JSON.stringify(user));
+    this.checkAuthentication();
   }
   login(loginData: any) {
     return this.http.post<AuthResponseData>(
@@ -48,6 +73,7 @@ export class AuthService {
   }
   removeToken() {
     localStorage.removeItem(this.TOKEN_KEY);
+    this.checkAuthentication();
   }
   removeUser() {
     localStorage.removeItem(this.TOKEN_USER);

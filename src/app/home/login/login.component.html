@@ -29,6 +29,7 @@
                     <h4 class="mb-4 pb-3">Log In</h4>
 
 
+
                     <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
                     <div class="form-group">
                       <input
@@ -51,7 +52,7 @@
                       />
                       <i class="input-icon uil uil-lock-alt"></i>
                     </div>
-                    
+                    <app-spinner />
                     <button type="submit" [disabled]="loginForm.invalid" class="btn btn-success login-button">Login</button>
 
                     </form>

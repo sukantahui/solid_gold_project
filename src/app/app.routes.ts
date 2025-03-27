@@ -11,6 +11,7 @@ import { adminAuthGuard } from './guards/admin-auth.guard';
 import { DeveloperComponent } from './developer/developer.component';
 import { developerAuthGuard } from './guards/developer-auth.guard';
 import { LogoutComponent } from './logout/logout.component';
+import { alreadyAuthGuard } from './guards/already-auth.guard';
 
 export const routes: Routes = [
   {
@@ -22,7 +23,17 @@ export const routes: Routes = [
   {
     path: 'home',
     component: HomeComponent,
-    children: [{ path: 'login', component: LoginComponent }],
+    children: [
+      { path: 'login'
+        , component: LoginComponent
+        , canActivate: [alreadyAuthGuard]
+      }
+    ],
+  },
+  {
+    path: 'login',
+    redirectTo: 'home/login',
+    pathMatch: 'full'
   },
 
   {
