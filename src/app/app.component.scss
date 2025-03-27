@@ -1,3 +1,6 @@
-h1{
-    color: green;
+:host {
+  display: block;
+  min-height: 100vh;
+  background-color: #222422; /* Your desired color */
+  padding: 0px !important;
 }
