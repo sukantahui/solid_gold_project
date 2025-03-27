@@ -13,7 +13,6 @@ export class MenuAdminComponent {
   private authService = inject(AuthService);
   logoutMe() {
     this.authService.logout().subscribe((response:any) => {
-      console.log('Logout:', response);
       this.authService.removeToken();
       this,this.authService.removeUser();
       this.router.navigate(['/logout']);

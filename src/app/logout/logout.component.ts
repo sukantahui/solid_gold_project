@@ -9,7 +9,7 @@ import { Router } from '@angular/router';
   styleUrl: './logout.component.scss',
 })
 export class LogoutComponent {
-  countdown: number = 20;
+  countdown: number = 10;
   private countdownInterval: any;
   private authService = inject(AuthService);
   private router = inject(Router);

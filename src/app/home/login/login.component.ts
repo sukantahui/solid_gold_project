@@ -53,7 +53,14 @@ export class LoginComponent {
           if (response?.data?.token) {
             this.authService.setToken(response.data.token);
             this.authService.setUser(response.data.user);
-            this.router.navigate(['/admin']);
+            if(response.data.user.userType.userTypeName==='Admin'){
+              this.router.navigate(['/admin']);
+            }else if(response.data.user.userType.userTypeName==='Developer'){
+              this.router.navigate(['/developer']);
+            }else{
+              this.router.navigate(['/home']);
+            }
+
           } else {
             this.handleError('Invalid response from server');
           }
