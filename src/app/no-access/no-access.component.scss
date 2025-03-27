@@ -1,0 +1,109 @@
+@use '@angular/material' as mat;
+// If you want Material theming, add:
+@include mat.core();
+
+
+
+svg {
+  max-width: 500px; /* Adjust size */
+  max-height: 500px;
+}
+
+
+
+
+.logout-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: #424141 !important;
+  padding: 20px;
+}
+
+.logout-card {
+  background: rgb(240, 247, 184) !important;
+  border-radius: 8px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  padding: 40px;
+  max-width: 500px;
+  width: 100%;
+  text-align: center;
+  animation: fadeIn 0.5s ease-in-out;
+
+  h1 {
+    color: #333;
+    margin: 20px 0 10px;
+    font-size: 24px;
+    font-weight: 500;
+  }
+
+  .logout-icon {
+    margin-bottom: 20px;
+    svg {
+      animation: checkmark 0.5s ease-in-out;
+    }
+  }
+
+  .logout-message {
+    color: #666;
+    line-height: 1.6;
+    margin-bottom: 25px;
+  }
+
+  .countdown-message {
+    margin: 25px 0;
+    p {
+      color: #444;
+      margin-bottom: 15px;
+    }
+  }
+
+  .security-tips {
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px solid #eee;
+    text-align: left;
+
+    h3 {
+      color: #333;
+      margin-bottom: 10px;
+      font-size: 16px;
+    }
+
+    ul {
+      padding-left: 20px;
+      color: #666;
+      li {
+        margin-bottom: 8px;
+      }
+    }
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes checkmark {
+  0% { transform: scale(0.8); opacity: 0; }
+  50% { transform: scale(1.1); }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+
+.primary-button {
+  background: #3f51b5;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background 0.3s;
+
+  &:hover {
+    background: #303f9f;
+  }
+}
