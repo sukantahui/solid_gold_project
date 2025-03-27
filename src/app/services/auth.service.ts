@@ -3,20 +3,16 @@ import { inject, Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { CommonService } from './common.service';
 
-
-
 export interface AuthResponseData {
   status: boolean;
   message: string;
-  data: {user: any, token: string};
+  data: { user: any; token: string };
 }
 
-
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AuthService {
-
   private http = inject(HttpClient);
   private router = inject(Router);
   private commonService = inject(CommonService);
@@ -26,25 +22,34 @@ export class AuthService {
     return localStorage.getItem(this.TOKEN_KEY);
   }
   getUser(): any | null {
-    return JSON.stringify(localStorage.getItem(this.TOKEN_USER));
+    // return JSON.parse(localStorage.getItem(this.TOKEN_USER));
+
+    const userString = localStorage.getItem(this.TOKEN_USER); // Retrieve as a string
+    const userObject = userString ? JSON.parse(userString) : null; // Convert to object
+    return userObject; // Return object
   }
   setToken(token: string): void {
     localStorage.setItem(this.TOKEN_KEY, token);
   }
-  setUser(user: any){
+  setUser(user: any) {
     localStorage.setItem(this.TOKEN_USER, JSON.stringify(user));
   }
   login(loginData: any) {
-      return this.http.post<AuthResponseData>(this.commonService.getAPI() + '/login', loginData);
+    return this.http.post<AuthResponseData>(
+      this.commonService.getAPI() + '/login',
+      loginData
+    );
   }
-  logout(){
-    return this.http.post<AuthResponseData>(this.commonService.getAPI() + '/logout',{});
+  logout() {
+    return this.http.post<AuthResponseData>(
+      this.commonService.getAPI() + '/logout',
+      {}
+    );
   }
-  removeToken(){
+  removeToken() {
     localStorage.removeItem(this.TOKEN_KEY);
   }
-  removeUser(){
+  removeUser() {
     localStorage.removeItem(this.TOKEN_USER);
   }
-
 }

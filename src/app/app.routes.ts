@@ -4,8 +4,11 @@ import { LoginComponent } from './home/login/login.component';
 import { AdminComponent } from './admin/admin.component';
 import { AdminDefaultComponent } from './admin/admin-default/admin-default.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
-import { authGuard } from './auth.guard';
+
 import { NoAccessComponent } from './no-access/no-access.component';
+import { authGuard } from './guards/auth.guard';
+import { adminAuthGuard } from './guards/admin-auth.guard';
+import { DeveloperComponent } from './developer/developer.component';
 
 export const routes: Routes = [
   {
@@ -23,10 +26,15 @@ export const routes: Routes = [
   {
     path: 'admin',
     component: AdminComponent,
-    canActivate: [authGuard],
+    canActivate: [authGuard, adminAuthGuard],
     children: [{ path: '', component: AdminDefaultComponent }],
   },
+  {
+    path: 'developer',
+    component: DeveloperComponent,
+  },
+
   { path: 'pageNotFound', component: PageNotFoundComponent }, // Wildcard route (MUST be last)
   { path: 'noAccess', component: NoAccessComponent }, // Wildcard route (MUST be last)
-  { path: '**', redirectTo: 'pageNotFound' } // Wildcard route (MUST be last)
+  { path: '**', redirectTo: 'pageNotFound' }, // Wildcard route (MUST be last)
 ];
