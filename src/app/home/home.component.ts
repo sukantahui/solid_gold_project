@@ -19,25 +19,24 @@ export class HomeComponent {
   private authService = inject(AuthService);
   private router = inject(Router);
   constructor() {
-    let token= this.authService.getToken();
-    let user= this.authService.getUser();
-    let userTypeName = user.userType.userTypeName;
-    console.log(userTypeName);
-    if(token){
+    let token = this.authService.getToken();
+
+    if (token) {
+      let user = this.authService.getUser();
+      let userTypeName = user.userType.userTypeName;
       //already logged in
       // redirect to admin
-      if(userTypeName === "Admin"){
+      if (userTypeName === 'Admin') {
         this.router.navigate(['admin']);
-      }else if(userTypeName === "Developer"){
+      } else if (userTypeName === 'Developer') {
         this.router.navigate(['developer']);
-      }else{
-        console.log("sfsdfsdfsfsdf");
+      } else {
+        console.log('sfsdfsdfsfsdf');
         this.router.navigate(['noAccess']);
       }
-
-    }else{
+    } else {
       //redirect to login
-      this.router.navigate(['home','login']);
+      //this.router.navigate(['home']);
     }
   }
 

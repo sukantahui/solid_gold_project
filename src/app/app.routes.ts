@@ -9,6 +9,8 @@ import { NoAccessComponent } from './no-access/no-access.component';
 import { authGuard } from './guards/auth.guard';
 import { adminAuthGuard } from './guards/admin-auth.guard';
 import { DeveloperComponent } from './developer/developer.component';
+import { developerAuthGuard } from './guards/developer-auth.guard';
+import { LogoutComponent } from './logout/logout.component';
 
 export const routes: Routes = [
   {
@@ -31,8 +33,11 @@ export const routes: Routes = [
   },
   {
     path: 'developer',
+    canActivate: [authGuard, developerAuthGuard],
     component: DeveloperComponent,
   },
+
+  { path: 'logout', component: LogoutComponent },
 
   { path: 'pageNotFound', component: PageNotFoundComponent }, // Wildcard route (MUST be last)
   { path: 'noAccess', component: NoAccessComponent }, // Wildcard route (MUST be last)
