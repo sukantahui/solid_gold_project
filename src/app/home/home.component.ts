@@ -4,10 +4,11 @@ import { Router, RouterModule, RouterOutlet } from '@angular/router';
 import { environment } from '../../environments/environment';
 import { CommonService } from '../services/common.service';
 import { AuthService } from '../services/auth.service';
+import { HomeFooterComponent } from "./home-footer/home-footer.component";
 
 @Component({
   selector: 'app-home',
-  imports: [MenuHomeComponent, RouterOutlet, RouterModule],
+  imports: [MenuHomeComponent, RouterOutlet, RouterModule, HomeFooterComponent],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
 })

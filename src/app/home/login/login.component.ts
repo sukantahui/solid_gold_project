@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -11,6 +11,7 @@ import Swal from 'sweetalert2';
 import { CommonModule } from '@angular/common';
 import { SpinnerComponent } from '../../shared/spinner/spinner.component';
 import { SpinnerService } from '../../services/spinner.service';
+import { AlertService } from '../../services/alert.service';
 
 @Component({
   selector: 'app-login',
@@ -22,6 +23,7 @@ import { SpinnerService } from '../../services/spinner.service';
 export class LoginComponent {
   loginForm: FormGroup;
   isSubmitting = false;
+  private alertService = inject(AlertService);
 
   constructor(
     private fb: FormBuilder,
@@ -73,33 +75,14 @@ export class LoginComponent {
     console.error('❌ Login Failed:', error);
 
     if (error.status === 401) {
-      Swal.fire({
-        title: 'Error!',
-        text: 'Email or password is incorrect',
-        icon: 'error',
-        confirmButtonText: 'OK',
-      });
+      this.alertService.error('Login Failed', 'User ID or Password mismatch');
     } else if (error.status === 503) {
-      Swal.fire({
-        title: 'Error!',
-        text: 'Service Unavailable, Start XAMPP',
-        icon: 'error',
-        confirmButtonText: 'OK',
-      });
+      this.alertService.error('Service Unavailable, Start XAMPP', "Login Error" );
     } else if (error.status === 0) {
-      Swal.fire({
-        title: 'Connection Error',
-        text: 'Cannot connect to server. Check API URL or CORS settings.',
-        icon: 'error',
-        confirmButtonText: 'OK',
-      });
+
+      this.alertService.error('Cannot connect to server. Check API URL or CORS settings.', error?.message || 'Unknown error');
     } else {
-      Swal.fire({
-        title: 'Error',
-        text: 'Login failed. Please try again.',
-        icon: 'error',
-        confirmButtonText: 'OK',
-      });
+      this.alertService.error('Login failed. Please try again.', error?.message || 'Unknown error');
     }
   }
 }

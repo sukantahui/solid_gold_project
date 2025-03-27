@@ -1,1 +1,42 @@
-<p>page-not-found works!</p>
+<div class="logout-container">
+  <div class="logout-card">
+    <div class="svg-container">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <path
+          d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"
+        ></path>
+        <line x1="12" y1="9" x2="12" y2="13"></line>
+        <line x1="12" y1="17" x2="12.01" y2="17"></line>
+      </svg>
+    </div>
+    <h1>404 - Page Not Found</h1>
+    <p>Oops! The page you're looking for doesn't exist.</p>
+
+    <div class="countdown-message">
+      <h4>
+        You will be redirected to the login page in
+        <span style="color: red">{{ countdown }} </span> seconds
+      </h4>
+      <button class="primary-button" (click)="navigateNow()">
+        Return to Login Now
+      </button>
+    </div>
+
+    <div class="security-tips">
+      <h3>Security Tips:</h3>
+      <ul>
+        <li>Always log out when finished</li>
+        <li>Never share your credentials</li>
+        <li>Use strong, unique passwords</li>
+      </ul>
+    </div>
+  </div>
+</div>
