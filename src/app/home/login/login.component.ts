@@ -74,7 +74,7 @@ export class LoginComponent {
         }
       });
   }
-
+ 
   private handleError(error: any) {
     this.spinnerService.hide();
     this.isSubmitting = false;
