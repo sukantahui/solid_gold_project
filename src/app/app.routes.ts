@@ -13,6 +13,9 @@ import { developerAuthGuard } from './guards/developer-auth.guard';
 import { LogoutComponent } from './logout/logout.component';
 import { alreadyAuthGuard } from './guards/already-auth.guard';
 import { HomeDefaultComponent } from './home/home-default/home-default.component';
+import { ManagerComponent } from './manager/manager.component';
+import { ManagerDefaultComponent } from './manager/manager-default/manager-default.component';
+import { CustomerComponent } from './pages/customer/customer.component';
 
 export const routes: Routes = [
   // Default route redirect
@@ -49,6 +52,24 @@ export const routes: Routes = [
 
   // Admin section
   {
+    path: 'manager',
+    component: ManagerComponent,
+    canActivate: [authGuard],
+    children: [
+      {
+        path: '',
+        component: ManagerDefaultComponent,
+        pathMatch: 'full'
+      },
+      {
+        path: 'customer',
+        component: CustomerComponent,
+      }
+    ]
+  },
+
+  // Admin section
+  {
     path: 'admin',
     component: AdminComponent,
     canActivate: [authGuard, adminAuthGuard],
@@ -57,6 +78,10 @@ export const routes: Routes = [
         path: '',
         component: AdminDefaultComponent,
         pathMatch: 'full'
+      },
+      {
+        path: 'customer',
+        component: CustomerComponent,
       }
     ]
   },

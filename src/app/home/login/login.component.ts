@@ -57,6 +57,8 @@ export class LoginComponent {
               this.router.navigate(['/admin']);
             }else if(response.data.user.userType.userTypeName==='Developer'){
               this.router.navigate(['/developer']);
+            }else if(response.data.user.userType.userTypeName==='Manager'){
+              this.router.navigate(['/manager']);
             }else{
               this.router.navigate(['/home']);
             }
