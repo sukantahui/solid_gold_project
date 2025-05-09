@@ -1,14 +1,14 @@
 import { Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
-import { AuthService } from '../../services/auth.service';
+import { AuthService } from '../../../services/auth.service';
 
 @Component({
-  selector: 'app-menu-manager',
+  selector: 'app-menu-admin',
   imports: [],
-  templateUrl: './menu-manager.component.html',
-  styleUrl: './menu-manager.component.scss',
+  templateUrl: './menu-admin.component.html',
+  styleUrl: './menu-admin.component.scss',
 })
-export class MenuManagerComponent {
+export class MenuAdminComponent {
   private router = inject(Router);
   private authService = inject(AuthService);
   logoutMe() {

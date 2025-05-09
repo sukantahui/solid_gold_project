@@ -31,8 +31,11 @@ export class HomeComponent {
         this.router.navigate(['admin']);
       } else if (userTypeName === 'Developer') {
         this.router.navigate(['developer']);
+      }else if (userTypeName === 'Owner') {
+        this.router.navigate(['owner']);
+      }else if (userTypeName === 'Manager') {
+        this.router.navigate(['manager']);
       } else {
-        console.log('sfsdfsdfsfsdf');
         this.router.navigate(['noAccess']);
       }
     } else {

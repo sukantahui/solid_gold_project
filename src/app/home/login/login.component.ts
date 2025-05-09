@@ -36,8 +36,7 @@ export class LoginComponent {
       password: ['', [Validators.required, Validators.minLength(6)]],
     });
   }
-
-  onSubmit() {
+  submitForm(){
     if (this.loginForm.invalid || this.isSubmitting) return;
 
     this.isSubmitting = true;
@@ -50,11 +49,13 @@ export class LoginComponent {
       })
       .subscribe({
         next: (response: any) => {
-          if (response?.data?.token) {
+          if (response && response.status==true && response?.data?.token) {
             this.authService.setToken(response.data.token);
             this.authService.setUser(response.data.user);
             if(response.data.user.userType.userTypeName==='Admin'){
               this.router.navigate(['/admin']);
+            }else if(response.data.user.userType.userTypeName==='Owner'){
+              this.router.navigate(['/owner']);
             }else if(response.data.user.userType.userTypeName==='Developer'){
               this.router.navigate(['/developer']);
             }else if(response.data.user.userType.userTypeName==='Manager'){
@@ -76,12 +77,15 @@ export class LoginComponent {
         }
       });
   }
+
+
+  onSubmit(event: Event) {
+    
+  }
  
   private handleError(error: any) {
     this.spinnerService.hide();
     this.isSubmitting = false;
-
-    console.error('❌ Login Failed:', error);
 
     if (error.status === 401) {
       this.alertService.error('Login Failed', 'User ID or Password mismatch');

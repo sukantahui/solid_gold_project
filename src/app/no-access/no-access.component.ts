@@ -47,4 +47,8 @@ export class NoAccessComponent {
     clearInterval(this.countdownInterval);
     this.router.navigate(['home']);
   }
+  clearLoginMemory(): void{
+    this.authService.removeUser();
+    this.router.navigate(['home']);
+  }
 }

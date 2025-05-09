@@ -77,5 +77,7 @@ export class AuthService {
   }
   removeUser() {
     localStorage.removeItem(this.TOKEN_USER);
+    localStorage.removeItem(this.TOKEN_KEY);
+    this.checkAuthentication();
   }
 }

@@ -1,1 +1,28 @@
-<p>customer works!</p>
+<div class="d-flex min-vh-100">
+    <!-- Sidebar with transition -->
+    <div class="sidebar bg-dark text-white" [class.collapsed]="!sidebarVisible">
+        @if (sidebarVisible) {
+            <h5>Sidebar</h5>
+            <ul class="nav flex-column">
+                <li class="nav-item">
+                    <a class="nav-link text-white" routerLink="/">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white" routerLink="/about">About</a>
+                </li>
+            </ul>
+        }
+    </div>
+
+    <!-- Main content -->
+    <div class="flex-grow-1 bg-light p-3">
+        <button class="btn btn-primary mb-3" (click)="toggleSidebar()">
+            {{ sidebarVisible ? 'Hide Sidebar' : 'Show Sidebar' }}
+        </button>
+
+        <h2>Main Content</h2>
+        <p>This section expands when sidebar is hidden.</p>
+
+        <router-outlet></router-outlet>
+    </div>
+</div>
