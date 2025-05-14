@@ -1,10 +1,10 @@
 import { Component, inject } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, RouterLink, RouterOutlet } from '@angular/router';
 import { AuthService } from '../../../services/auth.service';
 
 @Component({
   selector: 'app-menu-manager',
-  imports: [],
+  imports: [RouterLink, RouterOutlet],
   templateUrl: './menu-manager.component.html',
   styleUrl: './menu-manager.component.scss',
 })

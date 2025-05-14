@@ -18,6 +18,7 @@ import { ManagerDefaultComponent } from './user-pages/manager/manager-default/ma
 import { CustomerComponent } from './pages/customer/customer.component';
 import { OwnerComponent } from './user-pages/owner/owner.component';
 import { OnwerDefaultComponent } from './user-pages/owner/onwer-default/onwer-default.component';
+import { NewCustomerComponent } from './pages/customer/new-customer/new-customer.component';
 
 export const routes: Routes = [
   // Default route redirect
@@ -80,6 +81,12 @@ export const routes: Routes = [
       {
         path: 'customer',
         component: CustomerComponent,
+        children:[
+          {
+            path: 'newCustomer',
+            component: NewCustomerComponent
+          }
+        ]
       }
     ]
   },

@@ -56,14 +56,11 @@ export class AuthService {
     this.checkAuthentication();
   }
   setUser(user: any) {
-    localStorage.setItem(this.TOKEN_USER, JSON.stringify(user));
+    localStorage.setItem(this.TOKEN_USER, JSON.stringify(user)); 
     this.checkAuthentication();
   }
   login(loginData: any) {
-    return this.http.post<AuthResponseData>(
-      this.commonService.getAPI() + '/login',
-      loginData
-    );
+    return this.http.post<AuthResponseData>(this.commonService.getAPI() + '/login', loginData);
   }
   logout() {
     return this.http.post<AuthResponseData>(

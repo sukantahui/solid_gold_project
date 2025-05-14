@@ -24,11 +24,12 @@ export class LoginComponent {
   loginForm: FormGroup;
   isSubmitting = false;
   private alertService = inject(AlertService);
+  private authService = inject(AuthService);
 
   constructor(
     private fb: FormBuilder,
     private router: Router,
-    private authService: AuthService,
+    // private authService: AuthService,
     private spinnerService: SpinnerService
   ) {
     this.loginForm = this.fb.group({
@@ -41,7 +42,7 @@ export class LoginComponent {
 
     this.isSubmitting = true;
     this.spinnerService.show();
-
+    this.authService.login({});
     this.authService
       .login({
         email: this.loginForm.value.email,
