@@ -12,4 +12,7 @@ export class CustomerService {
   fetchCustomers(){
     return this.http.get<any>(this.commonService.getAPI() + '/customers');
   }
+  saveCustomer(customer: any){
+    return this.http.post<any>(this.commonService.getAPI() + '/customers',customer);
+  }
 }

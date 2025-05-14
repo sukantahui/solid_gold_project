@@ -19,6 +19,7 @@ import { CustomerComponent } from './pages/customer/customer.component';
 import { OwnerComponent } from './user-pages/owner/owner.component';
 import { OnwerDefaultComponent } from './user-pages/owner/onwer-default/onwer-default.component';
 import { NewCustomerComponent } from './pages/customer/new-customer/new-customer.component';
+import { customerCategoryResolver } from './resolvers/customer-category.resolver';
 
 export const routes: Routes = [
   // Default route redirect
@@ -84,7 +85,10 @@ export const routes: Routes = [
         children:[
           {
             path: 'newCustomer',
-            component: NewCustomerComponent
+            component: NewCustomerComponent,
+            resolve: {
+            customerCategories: customerCategoryResolver
+    }
           }
         ]
       }
