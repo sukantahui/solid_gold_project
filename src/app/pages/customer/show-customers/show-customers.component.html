@@ -1,1 +1,9 @@
 <h1>All Customers:</h1>
+
+@if (isDevMode) {
+<div id="devlopment-div">
+  <pre>
+        {{customers | json}}
+    </pre>
+</div>
+}

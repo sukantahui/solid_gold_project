@@ -21,6 +21,7 @@ import { OnwerDefaultComponent } from './user-pages/owner/onwer-default/onwer-de
 import { NewCustomerComponent } from './pages/customer/new-customer/new-customer.component';
 import { customerCategoryResolver } from './resolvers/customer-category.resolver';
 import { ShowCustomersComponent } from './pages/customer/show-customers/show-customers.component';
+import { customerResolver } from './resolvers/customer.resolver';
 
 export const routes: Routes = [
   // Default route redirect
@@ -94,6 +95,9 @@ export const routes: Routes = [
           {
             path: 'showCustomer',
             component: ShowCustomersComponent,
+            resolve: {
+              customerResolver: customerResolver,
+            },
           }
         ],
       },

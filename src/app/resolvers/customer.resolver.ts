@@ -5,7 +5,7 @@ import { CustomerService } from '../services/customer.service';
 import { SpinnerService } from '../services/spinner.service';
 import { inject } from '@angular/core';
 
-export const customerResolver: ResolveFn<Observable<CustomerInterface[]> > = (route, state) => {
+export const customerResolver: ResolveFn<CustomerInterface[]> = (route, state) => {
     const service = inject(CustomerService);
     const spinnerService = inject(SpinnerService);
     spinnerService.show();
