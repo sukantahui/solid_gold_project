@@ -15,8 +15,8 @@ export interface CustomerInterface {
 
   customerId?: number;
   category?: {
-    customerCategoryId: number;
-    customerCategoryName: string;
+    customerCategoryId?: number;
+    customerCategoryName?: string;
   };
   contact?: {
     email: string;
