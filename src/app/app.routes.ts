@@ -20,13 +20,14 @@ import { OwnerComponent } from './user-pages/owner/owner.component';
 import { OnwerDefaultComponent } from './user-pages/owner/onwer-default/onwer-default.component';
 import { NewCustomerComponent } from './pages/customer/new-customer/new-customer.component';
 import { customerCategoryResolver } from './resolvers/customer-category.resolver';
+import { ShowCustomersComponent } from './pages/customer/show-customers/show-customers.component';
 
 export const routes: Routes = [
   // Default route redirect
   {
     path: '',
     redirectTo: 'home',
-    pathMatch: 'full'
+    pathMatch: 'full',
   },
 
   // Home route with children
@@ -37,21 +38,21 @@ export const routes: Routes = [
       {
         path: 'login',
         component: LoginComponent,
-        canActivate: [alreadyAuthGuard]
+        canActivate: [alreadyAuthGuard],
       },
       {
         path: '',
         component: HomeDefaultComponent,
-        pathMatch: 'full'
-      }
-    ]
+        pathMatch: 'full',
+      },
+    ],
   },
 
   // Login redirect (from /login to /home/login)
   {
     path: 'login',
     redirectTo: 'user-pages/home/login',
-    pathMatch: 'full'
+    pathMatch: 'full',
   },
 
   // manager section
@@ -63,9 +64,9 @@ export const routes: Routes = [
       {
         path: '',
         component: OnwerDefaultComponent,
-        pathMatch: 'full'
+        pathMatch: 'full',
       },
-    ]
+    ],
   },
 
   // manager section
@@ -77,22 +78,26 @@ export const routes: Routes = [
       {
         path: '',
         component: ManagerDefaultComponent,
-        pathMatch: 'full'
+        pathMatch: 'full',
       },
       {
         path: 'customer',
         component: CustomerComponent,
-        children:[
+        children: [
           {
             path: 'newCustomer',
             component: NewCustomerComponent,
             resolve: {
-            customerCategories: customerCategoryResolver
-    }
+              customerCategories: customerCategoryResolver,
+            },
+          },
+          {
+            path: 'showCustomer',
+            component: ShowCustomersComponent,
           }
-        ]
-      }
-    ]
+        ],
+      },
+    ],
   },
 
   // Admin section
@@ -104,26 +109,26 @@ export const routes: Routes = [
       {
         path: '',
         component: AdminDefaultComponent,
-        pathMatch: 'full'
+        pathMatch: 'full',
       },
       {
         path: 'customer',
         component: CustomerComponent,
-      }
-    ]
+      },
+    ],
   },
 
   // Developer section
   {
     path: 'developer',
     component: DeveloperComponent,
-    canActivate: [authGuard, developerAuthGuard]
+    canActivate: [authGuard, developerAuthGuard],
   },
 
   // Logout route
   {
     path: 'logout',
-    component: LogoutComponent
+    component: LogoutComponent,
   },
 
   // Error/special pages
@@ -133,6 +138,6 @@ export const routes: Routes = [
   // Wildcard route (MUST be last)
   {
     path: '**',
-    redirectTo: 'pageNotFound'
-  }
+    redirectTo: 'pageNotFound',
+  },
 ];

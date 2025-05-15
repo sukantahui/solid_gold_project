@@ -58,8 +58,9 @@ export class NewCustomerComponent {
   }
 
   onSubmit(): void {
+    //Confirming the save action
     Swal.fire({
-      title: 'Save Customer?',
+      title: 'Sotti CHaan Naaki?',
       text: 'Do you want to save this customer?',
       icon: 'question',
       showCancelButton: true,

@@ -9,7 +9,7 @@ export class CustomerService {
 
   constructor(private  http: HttpClient, private commonService: CommonService) { }
 
-  fetchCustomers(){
+  getCustomers(){
     return this.http.get<any>(this.commonService.getAPI() + '/customers');
   }
   saveCustomer(customer: any){
