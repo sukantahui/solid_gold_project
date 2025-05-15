@@ -1,17 +1,21 @@
 <div class="d-flex min-vh-100">
     <!-- Sidebar -->
-    <div class="sidebar bg-dark text-white" [class.collapsed]="!sidebarVisible">
+    <div class="sidebar bg-dark text-white" [class.collapsed]="!sidebarVisible" (mouseenter)="onSidebarMouseEnter()" (mouseleave)="onSidebarMouseLeave()">
         <ng-container *ngIf="sidebarVisible">
             <h5 class="mt-3 ms-3">Sidebar</h5>
             <ul class="nav flex-column">
                 <li class="nav-item">
-                    <a class="nav-link text-white d-flex align-items-center" routerLink="./newCustomer">
+                    <a class="nav-link text-white d-flex align-items-center" routerLink="./newCustomer"
+                        routerLinkActive="active-link" [routerLinkActiveOptions]="{ exact: true }"
+                        [class.disabled]="isActiveRoute('/customer/newCustomer')">
                         <mat-icon class="me-2">person_add</mat-icon>
                         <span *ngIf="sidebarVisible">New Customer</span>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-white" routerLink="./showCustomer">
+                    <a class="nav-link text-white" routerLink="./showCustomer" routerLinkActive="active-link"
+                        [routerLinkActiveOptions]="{ exact: true }"
+                        [class.disabled]="isActiveRoute('/customer/showCustomer')">
                         <mat-icon class="me-1">people</mat-icon> Show Customer
                     </a>
                 </li>
@@ -21,9 +25,13 @@
 
     <!-- Main Content -->
     <div class="main-content bg-light p-3 flex-grow-1" [style.marginLeft]="sidebarWidth">
-        <button mat-raised-button color="primary" (click)="toggleSidebar()">
-            <mat-icon class="me-1">{{ sidebarVisible ? 'chevron_left' : 'chevron_right' }}</mat-icon>
-            {{ sidebarVisible ? 'Hide Sidebar' : 'Show Sidebar' }}
+        <button mat-icon-button color="primary" (click)="toggleSidebar()"
+            [matTooltip]="sidebarVisible ? 'Hide Sidebar' : 'Show Sidebar'"
+            [attr.aria-label]="sidebarVisible ? 'Hide Sidebar' : 'Show Sidebar'" class="sidebar-toggle-btn"
+            [ngClass]="{'sidebar-open': sidebarVisible, 'sidebar-closed': !sidebarVisible}">
+            <mat-icon>
+                {{ sidebarVisible ? 'chevron_left' : 'chevron_right' }}
+            </mat-icon>
         </button>
 
         <h3 class="mt-3">CUSTOMER</h3>
