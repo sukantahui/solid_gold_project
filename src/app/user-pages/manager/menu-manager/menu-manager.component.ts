@@ -4,7 +4,7 @@ import { AuthService } from '../../../services/auth.service';
 
 @Component({
   selector: 'app-menu-manager',
-  imports: [RouterLink, RouterOutlet],
+  imports: [RouterLink],
   templateUrl: './menu-manager.component.html',
   styleUrl: './menu-manager.component.scss',
 })

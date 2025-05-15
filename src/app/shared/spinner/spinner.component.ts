@@ -10,8 +10,8 @@ import { SpinnerService } from '../../services/spinner.service';
   styleUrl: './spinner.component.scss'
 })
 export class SpinnerComponent {
-  public message="Please wait";
-  constructor(public spinnerService: SpinnerService) {}
+  public spinnerService = inject(SpinnerService);
+  public message = 'Please wait';
 
 
 }
