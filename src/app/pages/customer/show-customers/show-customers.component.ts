@@ -15,7 +15,6 @@ export class ShowCustomersComponent {
   customers: CustomerInterface[] = [];
   private route = inject(ActivatedRoute);
 
-
   ngOnInit(): void {
     this.customers = this.route.snapshot.data['customerResolver'].data;
     console.log('Loaded categories:', this.customers);

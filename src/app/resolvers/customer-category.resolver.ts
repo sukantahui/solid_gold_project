@@ -15,4 +15,4 @@ export const customerCategoryResolver: ResolveFn<Observable<CustomerCategoryInte
   return service.getCategories().pipe(
     finalize(() => spinnerService.hide())
   );
-};
+}; 
