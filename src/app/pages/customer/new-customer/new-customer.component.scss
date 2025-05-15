@@ -1,19 +1,15 @@
-.form-container {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 16px;
-  max-width: 900px;
+.form-wrapper {
+  max-width: 800px;
   margin: auto;
-  padding: 16px;
-}
-mat-form-field {
-  width: 100%;
-}
-button {
-  grid-column: span 2;
+  padding: 1rem;
 }
 
-button[disabled] {
-  opacity: 0.6;
-  cursor: not-allowed;
+.form-container {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
+
+.full-width {
+  width: 100%;
 }
