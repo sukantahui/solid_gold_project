@@ -1,4 +1,22 @@
 <h1>All Customers:</h1>
+<div class="table-responsive mt-4">
+  <table class="table table-bordered table-striped table-hover text-white bg-dark">
+    <thead class="table-light text-dark">
+      <tr>
+        <th>#</th>
+        <th>Name</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let customer of customers; let i = index">
+        <td>{{ i + 1 }}</td>
+        <td>{{ customer.customerName }}</td>
+  
+      </tr>
+    </tbody>
+  </table>
+</div>
+
 
 @if (isDevMode) {
 <div id="devlopment-div">
