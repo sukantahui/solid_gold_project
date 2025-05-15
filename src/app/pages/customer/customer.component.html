@@ -1,26 +1,32 @@
 <div class="d-flex min-vh-100">
-    <!-- Sidebar with transition -->
+    <!-- Sidebar -->
     <div class="sidebar bg-dark text-white" [class.collapsed]="!sidebarVisible">
-        @if (sidebarVisible) {
-            <h5>Sidebar</h5>
+        <ng-container *ngIf="sidebarVisible">
+            <h5 class="mt-3 ms-3">Sidebar</h5>
             <ul class="nav flex-column">
                 <li class="nav-item">
-                    <a class="nav-link text-white" routerLink="./newCustomer">New Customer</a>
+                    <a class="nav-link text-white d-flex align-items-center" routerLink="./newCustomer">
+                        <mat-icon class="me-2">person_add</mat-icon>
+                        <span *ngIf="sidebarVisible">New Customer</span>
+                    </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-white" routerLink="./showCustomer">Show Customer</a>
+                    <a class="nav-link text-white" routerLink="./showCustomer">
+                        <mat-icon class="me-1">people</mat-icon> Show Customer
+                    </a>
                 </li>
             </ul>
-        }
+        </ng-container>
     </div>
 
-    <!-- Main content -->
-    <div class="flex-grow-1 bg-light p-3">
-        <button class="btn btn-primary mb-3" (click)="toggleSidebar()">
+    <!-- Main Content -->
+    <div class="main-content bg-light p-3 flex-grow-1" [style.marginLeft]="sidebarWidth">
+        <button mat-raised-button color="primary" (click)="toggleSidebar()">
+            <mat-icon class="me-1">{{ sidebarVisible ? 'chevron_left' : 'chevron_right' }}</mat-icon>
             {{ sidebarVisible ? 'Hide Sidebar' : 'Show Sidebar' }}
         </button>
 
-        <h3>CUSTOMER</h3>
+        <h3 class="mt-3">CUSTOMER</h3>
         <app-spinner></app-spinner>
         <router-outlet></router-outlet>
     </div>

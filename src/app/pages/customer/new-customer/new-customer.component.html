@@ -1,100 +1,137 @@
-<div class="form-wrapper">
-  <form [formGroup]="customerForm" (ngSubmit)="onSubmit()" class="form-container">
+<div>
+  <div class="form-wrapper">
+    <form [formGroup]="customerForm" (ngSubmit)="onSubmit()" class="form-container">
+      <div class="row">
+        <!-- Customer Name -->
+        <mat-form-field appearance="outline" class="two-third-width">
+          <mat-label>Customer Name</mat-label>
+          <mat-icon matPrefix>person</mat-icon>
+          <input matInput formControlName="customerName" />
+          <mat-error *ngIf="customerForm.get('customerName')?.hasError('required')">
+            Customer Name is required
+          </mat-error>
+          <mat-error *ngIf="customerForm.get('customerName')?.hasError('maxlength')">
+            Maximum 10 characters allowed
+          </mat-error>
+        </mat-form-field>
 
-    <!-- Customer Name -->
-    <mat-form-field appearance="outline" class="full-width">
-      <mat-label>Customer Name</mat-label>
-      <input matInput formControlName="customerName" />
-    </mat-form-field>
+        <!-- Category -->
+        <mat-form-field appearance="outline" class="one-third-width">
+          <mat-label>Customer Category</mat-label>
+          <mat-select formControlName="customerCategoryId">
+            <mat-option *ngFor="let category of customerCategories" [value]="category.customerCategoryId">
+              {{ category.customerCategoryName }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
 
-    <!-- Category -->
-    <mat-form-field appearance="outline" class="full-width">
-      <mat-label>Customer Category</mat-label>
-      <mat-select formControlName="customerCategoryId">
-        <mat-option *ngFor="let category of customerCategories" [value]="category.customerCategoryId">
-          {{ category.customerCategoryName }}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
+      </div>
 
-    <!-- Mailing Name -->
-    <mat-form-field appearance="outline" class="full-width">
-      <mat-label>Mailing Name</mat-label>
-      <input matInput formControlName="mailingName" />
-    </mat-form-field>
 
-    <!-- Email -->
-    <mat-form-field appearance="outline" class="full-width">
-      <mat-label>Email</mat-label>
-      <input matInput type="email" formControlName="email" />
-    </mat-form-field>
 
-    <!-- Phone -->
-    <mat-form-field appearance="outline" class="full-width">
-      <mat-label>Phone</mat-label>
-      <input matInput formControlName="phone" />
-    </mat-form-field>
+      <!-- Mailing Name -->
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Mailing Name</mat-label>
+        <mat-icon matPrefix>person</mat-icon>
+        <input matInput formControlName="mailingName" />
+      </mat-form-field>
 
-    <!-- Mobile 1 -->
-    <mat-form-field appearance="outline" class="full-width">
-      <mat-label>Mobile 1</mat-label>
-      <input matInput formControlName="mobile1" />
-    </mat-form-field>
+      <!-- Email -->
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Email</mat-label>
+        <mat-icon matPrefix>email</mat-icon>
+        <input matInput type="email" formControlName="email" />
+        <mat-error *ngIf="customerForm.get('email')?.hasError('required')">
+          Email is required
+        </mat-error>
+        <mat-error *ngIf="customerForm.get('email')?.hasError('email')">
+          Enter a valid email
+        </mat-error>
+      </mat-form-field>
 
-    <!-- Mobile 2 -->
-    <mat-form-field appearance="outline" class="full-width">
-      <mat-label>Mobile 2</mat-label>
-      <input matInput formControlName="mobile2" />
-    </mat-form-field>
+      <!-- Phone -->
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Phone</mat-label>
+        <mat-icon matPrefix>call</mat-icon>
+        <input matInput formControlName="phone" />
+        <mat-error *ngIf="customerForm.get('phone')?.hasError('required')">
+          Phone number is required
+        </mat-error>
+        <mat-error *ngIf="customerForm.get('phone')?.hasError('pattern')">
+          Enter 10–15 digit phone number
+        </mat-error>
+      </mat-form-field>
 
-    <!-- WhatsApp -->
-    <mat-form-field appearance="outline" class="full-width">
-      <mat-label>WhatsApp</mat-label>
-      <input matInput formControlName="whatsapp" />
-    </mat-form-field>
+      <div class="row">
+        <!-- WhatsApp -->
+        <mat-form-field appearance="outline" class="third-width">
+          <mat-label>WhatsApp</mat-label>
+          <mat-icon matPrefix>chat</mat-icon>
+          <input matInput formControlName="whatsapp" />
+        </mat-form-field>
 
-    <!-- Address -->
-    <mat-form-field appearance="outline" class="full-width">
-      <mat-label>Address</mat-label>
-      <textarea matInput formControlName="address" rows="2"></textarea>
-    </mat-form-field>
+        <!-- Mobile 1 -->
+        <mat-form-field appearance="outline" class="third-width">
+          <mat-label>Mobile 1</mat-label>
+          <input matInput formControlName="mobile1" />
+          <mat-icon matPrefix>phone_iphone</mat-icon>
+          <mat-error *ngIf="customerForm.get('mobile1')?.hasError('required')">
+            Mobile number is required
+          </mat-error>
+          <mat-error *ngIf="customerForm.get('mobile1')?.hasError('pattern')">
+            Enter a valid 10–15 digit mobile number
+          </mat-error>
+        </mat-form-field>
 
-    <!-- Pin Code -->
-    <mat-form-field appearance="outline" class="full-width">
-      <mat-label>Pin Code</mat-label>
-      <input matInput formControlName="pinCode" />
-    </mat-form-field>
+        <!-- Mobile 2 -->
+        <mat-form-field appearance="outline" class="third-width">
+          <mat-label>Mobile 1</mat-label>
+          <mat-icon matPrefix>phone_iphone</mat-icon>
+          <input matInput formControlName="mobile1" />
+        </mat-form-field>
+      </div>
 
-    <!-- Opening Balances -->
-    <mat-form-field appearance="outline" class="full-width">
-      <mat-label>Opening Gold Balance (g)</mat-label>
-      <input matInput type="number" formControlName="openingGoldBalance" />
-    </mat-form-field>
 
-    <mat-form-field appearance="outline" class="full-width">
-      <mat-label>Opening Cash Balance (₹)</mat-label>
-      <input matInput type="number" formControlName="openingCashBalance" />
-    </mat-form-field>
 
-    <!-- Submit Button -->
-    <button mat-raised-button color="primary" type="submit" [disabled]="customerForm.invalid || isLoading">
-      <mat-progress-spinner
-        *ngIf="isLoading"
-        diameter="20"
-        mode="indeterminate"
-        color="accent"
-        style="margin-right: 8px;">
-      </mat-progress-spinner>
-      {{ isLoading ? 'Saving...' : 'Submit' }}
-    </button>
+      <!-- Address -->
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Address</mat-label>
+        <textarea matInput formControlName="address" rows="2"></textarea>
+      </mat-form-field>
 
-  </form>
+      <!-- Pin Code -->
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Pin Code</mat-label>
+        <input matInput formControlName="pinCode" />
+      </mat-form-field>
 
-  <!-- Debug JSON Output in Dev Mode -->
-  <ng-container *ngIf="isDevMode">
-    <div id="development-div" style="margin-top: 20px; background: #333; color: #0f0; padding: 1rem;">
-      <h4>Form Debug (Dev Mode)</h4>
-      <pre>{{ customerForm.value | json }}</pre>
-    </div>
-  </ng-container>
+      <!-- Opening Balances -->
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Opening Gold Balance (g)</mat-label>
+        <input matInput type="number" formControlName="openingGoldBalance" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Opening Cash Balance (₹)</mat-label>
+        <input matInput type="number" formControlName="openingCashBalance" />
+      </mat-form-field>
+
+      <!-- Submit Button -->
+      <button mat-raised-button color="primary" type="submit" [disabled]="customerForm.invalid || isLoading">
+        <mat-progress-spinner *ngIf="isLoading" diameter="20" mode="indeterminate" color="accent"
+          style="margin-right: 8px;">
+        </mat-progress-spinner>
+        {{ isLoading ? 'Saving...' : 'Submit' }}
+      </button>
+
+    </form>
+
+    <!-- Debug JSON Output in Dev Mode -->
+    <ng-container *ngIf="isDevMode">
+      <div id="development-div" style="margin-top: 20px; background: #333; color: #0f0; padding: 1rem;">
+        <h4>Form Debug (Dev Mode)</h4>
+        <pre>{{ customerForm.value | json }}</pre>
+      </div>
+    </ng-container>
+  </div>
 </div>

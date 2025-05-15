@@ -18,6 +18,7 @@ import Swal from 'sweetalert2';
     ReactiveFormsModule,
     MatInputModule,
     MatSelectModule,
+    MatIconModule,
     MatFormFieldModule,
     MatButtonModule],
   templateUrl: './new-customer.component.html',
@@ -35,7 +36,7 @@ export class NewCustomerComponent {
 
   constructor() {
     this.customerForm = this.fb.group({
-      customerName: ['', Validators.required],
+      customerName: ['', [Validators.required, Validators.maxLength(10)]],
       customerCategoryId: [1, Validators.required],
       mailingName: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
