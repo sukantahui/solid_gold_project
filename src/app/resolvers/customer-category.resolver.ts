@@ -8,7 +8,7 @@ import { SpinnerService } from '../services/spinner.service';
 
 
 
-export const customerCategoryResolver: ResolveFn<Observable<CustomerCategoryInterface[]>> = (route, state) => {
+export const customerCategoryResolver: ResolveFn<CustomerCategoryInterface[]> = (route, state) => {
   const service = inject(CustomerCategoryService);
   const spinnerService = inject(SpinnerService);
   spinnerService.show();

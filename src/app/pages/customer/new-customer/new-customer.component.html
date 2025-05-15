@@ -1,80 +1,100 @@
-<div>
+<div class="form-wrapper">
   <form [formGroup]="customerForm" (ngSubmit)="onSubmit()" class="form-container">
-    <mat-form-field appearance="outline">
+
+    <!-- Customer Name -->
+    <mat-form-field appearance="outline" class="full-width">
       <mat-label>Customer Name</mat-label>
       <input matInput formControlName="customerName" />
     </mat-form-field>
 
-    <mat-form-field appearance="outline">
+    <!-- Category -->
+    <mat-form-field appearance="outline" class="full-width">
       <mat-label>Customer Category</mat-label>
       <mat-select formControlName="customerCategoryId">
         <mat-option *ngFor="let category of customerCategories" [value]="category.customerCategoryId">
-          {{ category.customerCategoryName}}
+          {{ category.customerCategoryName }}
         </mat-option>
       </mat-select>
     </mat-form-field>
 
-    <mat-form-field appearance="outline">
+    <!-- Mailing Name -->
+    <mat-form-field appearance="outline" class="full-width">
       <mat-label>Mailing Name</mat-label>
       <input matInput formControlName="mailingName" />
     </mat-form-field>
 
-    <mat-form-field appearance="outline">
+    <!-- Email -->
+    <mat-form-field appearance="outline" class="full-width">
       <mat-label>Email</mat-label>
       <input matInput type="email" formControlName="email" />
     </mat-form-field>
 
-    <mat-form-field appearance="outline">
+    <!-- Phone -->
+    <mat-form-field appearance="outline" class="full-width">
       <mat-label>Phone</mat-label>
       <input matInput formControlName="phone" />
     </mat-form-field>
 
-    <mat-form-field appearance="outline">
+    <!-- Mobile 1 -->
+    <mat-form-field appearance="outline" class="full-width">
       <mat-label>Mobile 1</mat-label>
       <input matInput formControlName="mobile1" />
     </mat-form-field>
 
-    <mat-form-field appearance="outline">
+    <!-- Mobile 2 -->
+    <mat-form-field appearance="outline" class="full-width">
       <mat-label>Mobile 2</mat-label>
       <input matInput formControlName="mobile2" />
     </mat-form-field>
 
-    <mat-form-field appearance="outline">
+    <!-- WhatsApp -->
+    <mat-form-field appearance="outline" class="full-width">
       <mat-label>WhatsApp</mat-label>
       <input matInput formControlName="whatsapp" />
     </mat-form-field>
 
-    <mat-form-field appearance="outline">
+    <!-- Address -->
+    <mat-form-field appearance="outline" class="full-width">
       <mat-label>Address</mat-label>
-      <textarea matInput formControlName="address"></textarea>
+      <textarea matInput formControlName="address" rows="2"></textarea>
     </mat-form-field>
 
-    <mat-form-field appearance="outline">
+    <!-- Pin Code -->
+    <mat-form-field appearance="outline" class="full-width">
       <mat-label>Pin Code</mat-label>
       <input matInput formControlName="pinCode" />
     </mat-form-field>
 
-    <mat-form-field appearance="outline">
+    <!-- Opening Balances -->
+    <mat-form-field appearance="outline" class="full-width">
       <mat-label>Opening Gold Balance (g)</mat-label>
       <input matInput type="number" formControlName="openingGoldBalance" />
     </mat-form-field>
 
-    <mat-form-field appearance="outline">
+    <mat-form-field appearance="outline" class="full-width">
       <mat-label>Opening Cash Balance (₹)</mat-label>
       <input matInput type="number" formControlName="openingCashBalance" />
     </mat-form-field>
 
+    <!-- Submit Button -->
     <button mat-raised-button color="primary" type="submit" [disabled]="customerForm.invalid || isLoading">
-      <mat-progress-spinner *ngIf="isLoading" diameter="20" mode="indeterminate" color="accent" style="margin-right: 8px;">
+      <mat-progress-spinner
+        *ngIf="isLoading"
+        diameter="20"
+        mode="indeterminate"
+        color="accent"
+        style="margin-right: 8px;">
       </mat-progress-spinner>
       {{ isLoading ? 'Saving...' : 'Submit' }}
     </button>
+
   </form>
+
+  <!-- Debug JSON Output in Dev Mode -->
+  <ng-container *ngIf="isDevMode">
+    <div id="development-div" style="margin-top: 20px; background: #333; color: #0f0; padding: 1rem;">
+      <h4>Form Debug (Dev Mode)</h4>
+      <pre>{{ customerForm.value | json }}</pre>
+    </div>
+  </ng-container>
 </div>
-@if (isDevMode) {
-<div id="devlopment-div">
-  <pre>
-        {{customerForm.value | json}}
-    </pre>
-</div>
-}
