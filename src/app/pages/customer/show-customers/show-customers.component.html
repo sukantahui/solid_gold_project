@@ -15,24 +15,23 @@
       </tr>
     </thead>
     <tbody>
-        <tr *ngFor="let customer of customers; let i = index">
-            <td>{{ i + 1 }}</td>
-            @if(customer.status?.active){
-                <td style="color: green">{{ customer.customerName }}</td>
-            }
-            @else {
-                <td style="color: red">{{ customer.customerName }}</td>
-            }
+      <tr *ngFor="let customer of customers; let i = index">
+        <td>{{ i + 1 }}</td>
+        @if(customer.status?.active){
+        <td style="color: green">{{ customer.customerName }}</td>
+        } @else {
+        <td style="color: red">{{ customer.customerName }}</td>
+        }
         <td>{{ customer.category?.customerCategoryName }}</td>
         <td>{{ customer.contact?.address }}</td>
         <td>{{ customer.contact?.email }}</td>
         <td>{{ customer.contact?.phone }}</td>
         @if(!customer.contact?.whatsapp){
-            <td>?</td>
+        <td>?</td>
         }@else{
-            <td>{{ customer.contact?.whatsapp }}</td>
+        <td>{{ customer.contact?.whatsapp }}</td>
         }
-    </tr>
+      </tr>
     </tbody>
   </table>
 </div>
@@ -40,8 +39,7 @@
 @if (isDevMode) {
 <div id="devlopment-div">
   <pre>
-        {{ customers | json }}
-    </pre
-  >
+    {{ customers | json }}
+  </pre>
 </div>
 }
