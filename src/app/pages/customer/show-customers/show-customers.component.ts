@@ -5,13 +5,17 @@ import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import Swal from 'sweetalert2';
 import { CustomerService } from '../../../services/customer.service';
+import { MatSelectModule } from '@angular/material/select';
 @Component({
   selector: 'app-show-customers',
   imports: [CommonModule, MatIconModule,
     ReactiveFormsModule,
     MatButtonModule,
+    MatSelectModule,
+    MatFormFieldModule,
 ],
   templateUrl: './show-customers.component.html',
   styleUrl: './show-customers.component.scss',
@@ -19,7 +23,8 @@ import { CustomerService } from '../../../services/customer.service';
 export class ShowCustomersComponent {
 customerForm: FormGroup;
 private fb = inject(FormBuilder);
-  customerService: any;
+  private customerService = inject(CustomerService);
+customerCategories: any;
 edit(customer: CustomerInterface) {
   console.log(customer);
 }

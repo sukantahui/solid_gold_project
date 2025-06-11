@@ -4,7 +4,38 @@
     <span>Edit Customer Here</span>
   </header>
   <main>
+    <form>
      
+        <div class="row">
+        <!-- Customer Name -->
+        <mat-form-field appearance="outline" class="two-third-width">
+          <mat-label>Customer Name</mat-label>
+          <mat-icon matPrefix>person</mat-icon>
+          <input matInput formControlName="customerName" />
+          <mat-error *ngIf="customerForm.get('customerName')?.hasError('required')">
+            Customer Name is required
+          </mat-error>
+          <mat-error *ngIf="customerForm.get('customerName')?.hasError('maxlength')">
+            Maximum 10 characters allowed
+          </mat-error>
+        </mat-form-field>
+
+        <!-- Category -->
+        <mat-form-field appearance="outline" class="one-third-width">
+          <mat-label>Customer Category</mat-label>
+          <mat-select formControlName="customerCategoryId">
+            <mat-option *ngFor="let category of customerCategories" [value]="category.customerCategoryId">
+              {{ category.customerCategoryName }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+      </div>
+       
+      
+
+      
+    </form>
   </main>
 </div>
 <div class="table-responsive mt-4">

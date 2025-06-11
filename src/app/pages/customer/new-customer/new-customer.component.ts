@@ -24,6 +24,7 @@ import Swal from 'sweetalert2';
   templateUrl: './new-customer.component.html',
   styleUrl: './new-customer.component.scss'
 })
+
 export class NewCustomerComponent {
   private customerService = inject(CustomerService);
   private fb = inject(FormBuilder);
@@ -49,7 +50,6 @@ export class NewCustomerComponent {
       openingGoldBalance: [0, [Validators.required, Validators.min(0)]],
       openingCashBalance: [0, [Validators.required, Validators.min(0)]],
     });
-
   }
 
   ngOnInit(): void {
