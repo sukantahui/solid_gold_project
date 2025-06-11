@@ -1,4 +1,7 @@
 <h1>All Customers:</h1>
+<form [formGroup]="customerForm"  class="form-container">
+  
+</form>
 <div class="table-responsive mt-4">
   <table
     class="table table-bordered table-striped table-hover text-white bg-dark"
@@ -31,6 +34,11 @@
         }@else{
         <td>{{ customer.contact?.whatsapp }}</td>
         }
+        <td>
+          <a routerLink="#" (click)="edit(customer)" class="edit-btn">
+            <mat-icon matPrefix>edit</mat-icon>
+          </a>
+        </td>
       </tr>
     </tbody>
   </table>
