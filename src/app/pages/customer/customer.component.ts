@@ -24,7 +24,7 @@ export class CustomerComponent {
     this.setAutoCloseTimeout();
   }
   get sidebarWidth() {
-    return this.sidebarVisible ? '250px' : '0';  // match CSS width
+    return this.sidebarVisible ? '10px' : '0';  // match CSS width
   }
   isActiveRoute(route: string): boolean {
     return this.router.url.includes(route);

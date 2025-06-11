@@ -14,24 +14,24 @@
   width: 100%;
 }
 
+
 .row {
   display: flex;
-  gap: 16px;
+  
   flex-wrap: wrap;
+  margin-bottom: 0.5rem;
 }
 
 .half-width {
   flex: 1 1 48%;
 }
-.third-width {
+.third-width .one-third-width {
   flex: 1 1 30%;
 }
 .two-third-width{
   flex: 1 1 60%;
 }
-.one-third-width{
-  flex: 1 1 30%;
-}
+
 
 .form-wrapper {
   max-width: 1000px;
@@ -44,11 +44,7 @@
   gap: 1rem;
 }
 
-.row {
-  display: flex;
-  gap: 1rem;
-  flex-wrap: wrap;
-}
+
 
 .full-width {
   width: 100%;
