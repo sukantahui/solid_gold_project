@@ -22,6 +22,7 @@ import { NewCustomerComponent } from './pages/customer/new-customer/new-customer
 import { customerCategoryResolver } from './resolvers/customer-category.resolver';
 import { ShowCustomersComponent } from './pages/customer/show-customers/show-customers.component';
 import { customerResolver } from './resolvers/customer.resolver';
+import { OrderComponent } from './pages/order/order.component';
 
 export const routes: Routes = [
   // Default route redirect
@@ -98,9 +99,14 @@ export const routes: Routes = [
             resolve: {
               customerResolver: customerResolver,
             },
-          }
+          },
+
         ],
       },
+      {
+        path: 'order',
+        component: OrderComponent,
+      }
     ],
   },
 
