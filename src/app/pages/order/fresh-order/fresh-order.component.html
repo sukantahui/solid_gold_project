@@ -2,7 +2,7 @@
   <form [formGroup]="orderForm" (ngSubmit)="onSubmit()" class="bg-white p-4 shadow rounded">
 
     <h4 class="mb-3">New Order Entry</h4>
-
+    <p>{{ orderForm.get('orderDate')?.value | json }}</p>
     <!-- Customer & Order Date -->
     <div class="row mb-3">
       <div class="col-md-6">
@@ -15,7 +15,7 @@
       </div>
 
       <div class="col-md-6">
-        <mat-form-field appearance="fill" class="w-100">
+        <mat-form-field appearance="fill">
           <mat-label>Order Date</mat-label>
           <input matInput [matDatepicker]="picker" formControlName="orderDate">
           <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
@@ -33,7 +33,8 @@
     <h5 class="mt-4">Product Items</h5>
 
     <div formArrayName="items">
-      <div *ngFor="let item of items.controls; let i = index" [formGroupName]="i" class="row align-items-end mb-3 border-bottom pb-3">
+      <div *ngFor="let item of items.controls; let i = index" [formGroupName]="i"
+        class="row align-items-end mb-3 border-bottom pb-3">
 
         <div class="col-md-3">
           <mat-form-field appearance="fill" class="w-100">
@@ -73,7 +74,8 @@
         </div>
 
         <div class="col-md-2 text-end">
-          <button mat-icon-button color="warn" (click)="removeItem(i)" [disabled]="items.length === 1" matTooltip="Remove Item">
+          <button mat-icon-button color="warn" (click)="removeItem(i)" [disabled]="items.length === 1"
+            matTooltip="Remove Item">
             <mat-icon>delete</mat-icon>
           </button>
         </div>

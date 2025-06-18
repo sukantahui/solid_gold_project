@@ -1,5 +1,5 @@
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatNativeDateModule } from '@angular/material/core';
+import { DateAdapter } from '@angular/material/core';
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -9,6 +9,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSelectModule } from '@angular/material/select';
+import moment from 'moment';
 
 @Component({
   selector: 'app-fresh-order',
@@ -21,7 +22,6 @@ import { MatSelectModule } from '@angular/material/select';
     MatButtonModule,
     FormsModule,
     MatDatepickerModule,
-    MatNativeDateModule,
     MatFormFieldModule,
     MatInputModule,
     MatSelectModule,
@@ -43,17 +43,21 @@ export class FreshOrderComponent {
     { id: 2, name: 'Gold Necklace' }
   ];
 
-  constructor(private fb: FormBuilder) {}
+  constructor(private fb: FormBuilder, private dateAdapter: DateAdapter<any>) { }
 
   ngOnInit(): void {
+    this.dateAdapter.setLocale('en-GB'); // Forces dd/MM/yyyy format
     this.orderForm = this.fb.group({
       customer: ['', Validators.required],
-      orderDate: [new Date(), Validators.required],
+      orderDate: [moment(), Validators.required],
       note: [''],
       items: this.fb.array([])
     });
 
     this.addItem(); // Add one default item
+
+    console.log('orderDate:', this.orderForm.get('orderDate')?.value);
+    console.log('isMoment:', moment.isMoment(this.orderForm.get('orderDate')?.value));
   }
 
   // Get items FormArray
