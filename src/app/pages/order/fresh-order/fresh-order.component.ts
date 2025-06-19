@@ -1,7 +1,7 @@
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { DateAdapter } from '@angular/material/core';
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -10,6 +10,10 @@ import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSelectModule } from '@angular/material/select';
 import moment from 'moment';
+import { Agent } from '../../../interfaces/agent';
+import { ActivatedRoute } from '@angular/router';
+import { environment } from '../../../../environments/environment';
+import { CustomerInterface } from '../../../interfaces/customer.interface';
 
 @Component({
   selector: 'app-fresh-order',
@@ -31,17 +35,19 @@ import moment from 'moment';
   styleUrl: './fresh-order.component.scss'
 })
 export class FreshOrderComponent {
-  orderForm!: FormGroup;
+  isProd = environment.production;
 
-  customers = [
-    { id: 1, name: 'John Doe' },
-    { id: 2, name: 'Jane Smith' }
-  ];
+  orderForm!: FormGroup;
+  agents?: Agent[];
+  customers?: CustomerInterface[];
 
   products = [
     { id: 1, name: 'Gold Ring' },
     { id: 2, name: 'Gold Necklace' }
   ];
+  
+  private route = inject(ActivatedRoute);
+  isVisible = true;
 
   constructor(private fb: FormBuilder, private dateAdapter: DateAdapter<any>) { }
 
@@ -55,9 +61,9 @@ export class FreshOrderComponent {
     });
 
     this.addItem(); // Add one default item
-
-    console.log('orderDate:', this.orderForm.get('orderDate')?.value);
-    console.log('isMoment:', moment.isMoment(this.orderForm.get('orderDate')?.value));
+    //getting data from resolver
+    this.agents = this.route.snapshot.data['agentsResolver'].data;
+    this.customers = this.route.snapshot.data['customerResolver'].data;
   }
 
   // Get items FormArray

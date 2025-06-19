@@ -9,7 +9,7 @@
         <mat-form-field appearance="fill" class="w-100">
           <mat-label>Customer</mat-label>
           <mat-select formControlName="customer">
-            <mat-option *ngFor="let c of customers" [value]="c.id">{{ c.name }}</mat-option>
+            <mat-option *ngFor="let c of customers" [value]="c.customerId">{{ c.customerName }}</mat-option>
           </mat-select>
         </mat-form-field>
       </div>
@@ -95,4 +95,28 @@
       </button>
     </div>
   </form>
+</div>
+<!-- for togle button -->
+<div *ngIf = "isProd">
+  <button class="btn btn-primary mb-2" (click)="isVisible = !isVisible">
+    {{ isVisible ? 'Hide Details' : 'Show Details' }}
+  </button>
+</div>
+<!-- developer area -->
+<div *ngIf="isProd && isVisible" class="alert alert-info">
+  <div class="card card-body">
+    <div class="d-flex flex-row mb-3">
+      <div class="p-2">
+        <pre>
+          agents={{agents|json }}
+        </pre>
+      </div>
+      <div class="p-2">
+        <pre>
+          customers={{customers|json }}
+        </pre>
+      </div>
+      <div class="p-2">Flex item 3</div>
+    </div>
+  </div>
 </div>
