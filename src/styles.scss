@@ -32,3 +32,16 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+
+.styled-field .mat-form-field-label,
+.styled-field .mat-input-element,
+.styled-field .mat-select-value,
+.styled-field .mat-select-value-text {
+  color: green !important;
+}
+
+.styled-field .mat-form-field-outline-start path,
+.styled-field .mat-form-field-outline-end path {
+  stroke: green !important;
+}

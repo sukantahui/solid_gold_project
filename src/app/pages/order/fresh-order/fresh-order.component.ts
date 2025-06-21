@@ -1,7 +1,7 @@
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { DateAdapter } from '@angular/material/core';
 import { CommonModule } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { Component, inject, ViewEncapsulation } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -22,6 +22,7 @@ type OrderItemFormGroup = FormGroup<{
   gini: FormControl<string>;
   wastage: FormControl<string>;
   size: FormControl<string>;
+  note: FormControl<string>;
 }>;
 
 // Define typed root form
@@ -66,7 +67,9 @@ export class FreshOrderComponent {
   isVisible = true;
 
   constructor(private fb: FormBuilder, private dateAdapter: DateAdapter<any>) { }
-
+  trackByIndex(index: number): number {
+    return index;
+  }
   ngOnInit(): void {
     this.dateAdapter.setLocale('en-GB');
 
@@ -93,7 +96,8 @@ export class FreshOrderComponent {
       quantity: this.fb.nonNullable.control(1, [Validators.required, Validators.min(1)]),
       gini: this.fb.nonNullable.control('', Validators.required),
       wastage: this.fb.nonNullable.control('', Validators.required),
-      size: this.fb.nonNullable.control('0-0-0')
+      size: this.fb.nonNullable.control('0-0-0'),
+      note: this.fb.nonNullable.control('')
     });
   }
 

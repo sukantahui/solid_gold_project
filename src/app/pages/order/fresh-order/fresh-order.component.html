@@ -1,12 +1,11 @@
-<div class="container mt-4">
-  <form [formGroup]="orderForm" (ngSubmit)="onSubmit()" class="bg-white p-4 shadow rounded">
+<div class="container py-4">
+  <form [formGroup]="orderForm" (ngSubmit)="onSubmit()" class="p-4 form-card shadow-sm rounded bg-white">
+    <h4 class="mb-4 top-heading">📝 New Order Entry</h4>
 
-    <h4 class="mb-3">New Order Entry</h4>
-    <p>Date: {{ orderForm.get('orderDate')?.value | json }}</p>
-    <!-- Customer & Order Date -->
-    <div class="row mb-3">
+    <!-- Date & Customer -->
+    <div class="row mb-0">
       <div class="col-md-6">
-        <mat-form-field appearance="fill" class="w-100">
+        <mat-form-field appearance="outline" class="transparent-field w-100">
           <mat-label>Customer</mat-label>
           <mat-select formControlName="customer">
             <mat-option *ngFor="let c of customers" [value]="c.customerId">{{ c.customerName }}</mat-option>
@@ -15,7 +14,7 @@
       </div>
 
       <div class="col-md-6">
-        <mat-form-field appearance="fill">
+        <mat-form-field appearance="outline" class="styled-field w-100">
           <mat-label>Order Date</mat-label>
           <input matInput [matDatepicker]="picker" formControlName="orderDate">
           <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
@@ -24,20 +23,20 @@
       </div>
     </div>
 
-    <!-- Order Note -->
-    <mat-form-field appearance="fill" class="w-100 mb-3">
+    <!-- Note -->
+    <mat-form-field appearance="outline" class="styled-field w-100 mb-0">
       <mat-label>Order Note</mat-label>
       <textarea matInput formControlName="note" rows="2"></textarea>
     </mat-form-field>
 
-    <h5 class="mt-4">Product Items</h5>
-
+    <!-- Product Items -->
+    <h5 class="mt-4 mb-3">🛍 Product Items</h5>
     <div formArrayName="items">
-      <div *ngFor="let item of items.controls; let i = index" [formGroupName]="i"
-        class="row align-items-end mb-3 border-bottom pb-3">
+      <div *ngFor="let item of items.controls; let i = index; trackBy: trackByIndex" [formGroupName]="i"
+        class="row align-items-end mb-3 border rounded p-3 bg-light-subtle">
 
         <div class="col-md-3">
-          <mat-form-field appearance="fill" class="w-100">
+          <mat-form-field appearance="outline" class="styled-field w-100">
             <mat-label>Product</mat-label>
             <mat-select formControlName="product">
               <mat-option *ngFor="let p of products" [value]="p.id">{{ p.name }}</mat-option>
@@ -46,32 +45,33 @@
         </div>
 
         <div class="col-md-1">
-          <mat-form-field appearance="fill" class="w-100">
+          <mat-form-field appearance="outline" class="styled-field w-100">
             <mat-label>Qty</mat-label>
             <input matInput type="number" formControlName="quantity">
           </mat-form-field>
         </div>
 
         <div class="col-md-2">
-          <mat-form-field appearance="fill" class="w-100">
+          <mat-form-field appearance="outline" class="styled-field w-100">
             <mat-label>Gini</mat-label>
             <input matInput type="number" formControlName="gini">
           </mat-form-field>
         </div>
 
         <div class="col-md-2">
-          <mat-form-field appearance="fill" class="w-100">
+          <mat-form-field appearance="outline" class="styled-field w-100">
             <mat-label>Wastage %</mat-label>
             <input matInput type="number" formControlName="wastage">
           </mat-form-field>
         </div>
 
         <div class="col-md-2">
-          <mat-form-field appearance="fill" class="w-100">
+          <mat-form-field appearance="outline" class="styled-field w-100">
             <mat-label>Size</mat-label>
             <input matInput type="text" formControlName="size">
           </mat-form-field>
         </div>
+
 
         <div class="col-md-2 text-end">
           <button mat-icon-button color="warn" (click)="removeItem(i)" [disabled]="items.length === 1"
@@ -79,52 +79,27 @@
             <mat-icon>delete</mat-icon>
           </button>
         </div>
+        <div class="col-md-12 mt-2">
+          <mat-form-field appearance="outline" class="styled-field w-100">
+            <mat-label>Item Note</mat-label>
+            <textarea matInput formControlName="note" rows="2"></textarea>
+          </mat-form-field>
+        </div>
       </div>
     </div>
 
-    <!-- Add More Items -->
-    <div class="text-start mb-3">
+    <!-- Add Item -->
+    <div class="text-start my-3">
       <button mat-stroked-button color="primary" type="button" (click)="addItem()">
         <mat-icon>add</mat-icon> Add Another Product
       </button>
     </div>
 
+    <!-- Submit -->
     <div class="text-end">
       <button mat-raised-button color="primary" type="submit" [disabled]="orderForm.invalid">
-        Submit Order
+        ✅ Submit Order
       </button>
     </div>
   </form>
-</div>
-<!-- for togle button -->
-<div *ngIf = "isProd">
-  <button class="btn btn-primary mb-2" (click)="isVisible = !isVisible">
-    {{ isVisible ? 'Hide Details' : 'Show Details' }}
-  </button>
-</div>
-<!-- developer area -->
-<div *ngIf="isProd && isVisible" class="alert alert-info">
-  <div class="card card-body">
-    <div class="d-flex flex-row mb-3">
-      <div class="p-2">
-        <pre>
-          agents={{agents|json }}
-        </pre>
-      </div>
-      <div class="p-2">
-        <pre>
-          customers={{customers|json }}
-        </pre>
-      </div>
-      <div class="p-2">
-        <pre>
-            submitableData={{submitableData | json}}
-        </pre>
-        <hr>
-        <pre>
-            orderForm={{this.orderForm.value|json}}
-        </pre>
-      </div>
-    </div>
-  </div>
 </div>

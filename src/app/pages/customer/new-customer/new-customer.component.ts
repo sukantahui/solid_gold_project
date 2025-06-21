@@ -14,8 +14,7 @@ import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-new-customer',
-  imports: [ReactiveFormsModule, CommonModule,MatProgressSpinnerModule, 
-    ReactiveFormsModule,
+  imports: [ReactiveFormsModule, CommonModule, MatProgressSpinnerModule,
     MatInputModule,
     MatSelectModule,
     MatIconModule,
@@ -37,7 +36,7 @@ export class NewCustomerComponent {
 
   constructor() {
     this.customerForm = this.fb.group({
-      customerName: ['', [Validators.required, Validators.maxLength(10)]],
+      customerName: ['', [Validators.required, Validators.maxLength(100)]],
       customerCategoryId: [1, Validators.required],
       mailingName: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
@@ -53,8 +52,10 @@ export class NewCustomerComponent {
   }
 
   ngOnInit(): void {
-    this.customerCategories = this.route.snapshot.data['customerCategories'].data;
-    console.log('Loaded categories:', this.customerCategories);
+    this.customerCategories = this.route.snapshot.data?.['customerCategories']?.data || [];
+    if (this.isDevMode) {
+      console.log('Loaded categories:', this.customerCategories);
+    }
     // initialize form here if needed
   }
 
@@ -112,7 +113,7 @@ export class NewCustomerComponent {
               text: errorMessage,
               confirmButtonColor: '#d33'
             });
-            this.isLoading=false;
+            this.isLoading = false;
             console.error('Validation Error:', err);
           }
         });
