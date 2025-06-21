@@ -3,21 +3,17 @@ import { DateAdapter } from '@angular/material/core';
 import { CommonModule } from '@angular/common';
 import { Component, inject, ViewEncapsulation } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { MatButtonModule } from '@angular/material/button';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatIconModule } from '@angular/material/icon';
-import { MatInputModule } from '@angular/material/input';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { MatSelectModule } from '@angular/material/select';
 import moment, { Moment } from 'moment';
 import { Agent } from '../../../interfaces/agent';
 import { ActivatedRoute } from '@angular/router';
 import { environment } from '../../../../environments/environment';
 import { CustomerInterface } from '../../../interfaces/customer.interface';
+import { ProductService } from '../../../services/product.service';
+import { Product } from '../../../interfaces/product.interface';
 
 // Define typed item group
 type OrderItemFormGroup = FormGroup<{
-  product: FormControl<string>;
+  productId: FormControl<number | null>;
   quantity: FormControl<number>;
   gini: FormControl<string>;
   wastage: FormControl<string>;
@@ -39,36 +35,29 @@ type OrderFormGroup = FormGroup<{
   imports: [
     CommonModule,
     FormsModule,
-    ReactiveFormsModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatSelectModule,
-    MatIconModule,
-    MatButtonModule,
-    MatProgressSpinnerModule,
-    MatDatepickerModule
+    ReactiveFormsModule
   ],
   templateUrl: './fresh-order.component.html',
   styleUrl: './fresh-order.component.scss'
 })
 export class FreshOrderComponent {
   isProd = environment.production;
-
+  isDevMode = !environment.production;
+  showDevData = true;
+  itemNoteVisibility: boolean[] = [];
   orderForm!: OrderFormGroup;
   agents?: Agent[];
   customers?: CustomerInterface[];
   submitableData?: any;
-  products = [
-    { id: 1, name: 'Gold Ring' },
-    { id: 2, name: 'Gold Necklace' }
-  ];
-
+  products?: Product[];
   private readonly route = inject(ActivatedRoute);
   isVisible = true;
-
-  constructor(private fb: FormBuilder, private dateAdapter: DateAdapter<any>) { }
+  constructor(private fb: FormBuilder, private dateAdapter: DateAdapter<any>, private productService: ProductService) { }
   trackByIndex(index: number): number {
     return index;
+  }
+  toggleNote(index: number): void {
+    this.itemNoteVisibility[index] = !this.itemNoteVisibility[index];
   }
   ngOnInit(): void {
     this.dateAdapter.setLocale('en-GB');
@@ -84,6 +73,8 @@ export class FreshOrderComponent {
 
     this.agents = this.route.snapshot.data['agentsResolver']?.data || [];
     this.customers = this.route.snapshot.data['customerResolver']?.data || [];
+
+    this.onCustomerChange(); // subscribe to customer change
   }
 
   get items(): FormArray<OrderItemFormGroup> {
@@ -92,7 +83,7 @@ export class FreshOrderComponent {
 
   createOrderItem(): OrderItemFormGroup {
     return this.fb.group({
-      product: this.fb.nonNullable.control('', Validators.required),
+      productId: this.fb.control<number | null>(null, Validators.required), // ✅ Fix here
       quantity: this.fb.nonNullable.control(1, [Validators.required, Validators.min(1)]),
       gini: this.fb.nonNullable.control('', Validators.required),
       wastage: this.fb.nonNullable.control('', Validators.required),
@@ -109,6 +100,23 @@ export class FreshOrderComponent {
     if (this.items.length > 1) {
       this.items.removeAt(index);
     }
+  }
+
+  onCustomerChange(): void {
+    this.orderForm.get('customer')?.valueChanges.subscribe(customerId => {
+      console.log('Selected Customer ID:', customerId);
+      if (customerId) {
+        this.productService.getProductsWithRates(+customerId).subscribe(response => {
+          this.products = response.data;
+        });
+      }
+      // Optional: perform actions based on customer
+      const selectedCustomer = this.customers?.find(c => c.customerId === +customerId);
+      if (selectedCustomer) {
+        console.log('Selected Customer Object:', selectedCustomer);
+        // Example: You can auto-fill a field or filter products for that customer
+      }
+    });
   }
 
   onSubmit(): void {
