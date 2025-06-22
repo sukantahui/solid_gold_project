@@ -1,32 +1,9 @@
-::ng-deep .styled-field .mat-form-field-label {
-  color: green !important; /* floating label */
+.p-dropdown-panel {
+  background-color: #fff !important;
+  border: 1px solid #ccc;
+  border-radius: 4px;
 }
 
-::ng-deep .styled-field .mat-form-field-label.mat-form-field-empty {
-  color: green !important; /* placeholder-like label */
-}
-
-::ng-deep .styled-field .mat-input-element {
-  color: green !important; /* input text */
-}
-
-::ng-deep .styled-field .mat-select-value,
-::ng-deep .styled-field .mat-select-value-text {
-  color: green !important; /* selected text in mat-select */
-}
-
-::ng-deep .styled-field .mat-form-field-outline-start path,
-::ng-deep .styled-field .mat-form-field-outline-end path {
-  stroke: green !important;
-}
-::ng-deep .styled-field.mat-form-field-appearance-outline.mat-focused .mat-form-field-label {
-  color: green !important;
-}
-
-::ng-deep .styled-field.mat-form-field-appearance-outline.mat-focused .mat-form-field-outline-start path,
-::ng-deep .styled-field.mat-form-field-appearance-outline.mat-focused .mat-form-field-outline-end path {
-  stroke: green !important;
-}
-.top-heading{
-    color: green;
+.p-dropdown {
+  width: 100% !important;
 }

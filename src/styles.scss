@@ -1,4 +1,4 @@
-@import 'animate.css/animate.min.css';
+@use "sass:color";
 
 .swal2-popup {
   border-radius: 0.5rem !important;
@@ -23,15 +23,30 @@
 /* You can add global styles to this file, and also import other style files */
 @media (forced-colors: active) {
   * {
-    forced-color-adjust: none; /* Optional: Prevents forced colors on specific elements */
+    forced-color-adjust: none;
+    /* Optional: Prevents forced colors on specific elements */
   }
 }
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+html,
+body {
+  height: 100%;
+}
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
 
 
 .styled-field .mat-form-field-label,
@@ -44,4 +59,239 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .styled-field .mat-form-field-outline-start path,
 .styled-field .mat-form-field-outline-end path {
   stroke: green !important;
+}
+
+
+
+
+
+
+
+
+
+
+
+/* Custom PrimeNG Theme — Light Mode */
+
+
+:root {
+  --primary-color: #3f51b5 !important;
+  --primary-color-text: #ffffff !important;
+  --surface: #ffffff !important;
+  --surface-border: #dee2e6 !important;
+  --text-color: #212529 !important;
+  --text-secondary-color: #6c757d !important;
+  --hover-bg: #f0f0f0 !important;
+  --active-bg: #e3f2fd !important;
+  --border-radius: 6px !important;
+  --transition: all 0.2s ease-in-out !important;
+  --font-family: "Segoe UI", sans-serif !important;
+}
+
+body {
+  font-family: var(--font-family) !important;
+  background: #f9f9f9 !important;
+  color: var(--text-color) !important;
+  margin: 0 !important;
+}
+
+/* Dropdown */
+.p-dropdown {
+  border: 1px solid var(--surface-border) !important;
+  border-radius: var(--border-radius) !important;
+  background: var(--surface) !important;
+  padding: 0.4rem 0.5rem !important;
+  font-size: 14px !important;
+  transition: var(--transition) !important;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05) !important;
+}
+
+.p-dropdown.p-focus,
+.p-dropdown.p-dropdown-open {
+  border-color: var(--primary-color) !important;
+  box-shadow: 0 0 0 2px rgba(63, 81, 181, 0.1) !important;
+}
+
+.p-dropdown-panel {
+  border: 1px solid var(--surface-border) !important;
+  border-radius: var(--border-radius) !important;
+  background: var(--surface) !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
+}
+
+.p-dropdown-item {
+  padding: 0.5rem 1rem !important;
+  color: var(--text-color) !important;
+  transition: var(--transition) !important;
+}
+
+.p-dropdown-item:hover {
+  background-color: var(--hover-bg) !important;
+}
+
+.p-dropdown-item.p-highlight {
+  background-color: var(--active-bg) !important;
+  font-weight: 500 !important;
+}
+
+/* Button */
+.p-button {
+  background: var(--primary-color) !important;
+  color: var(--primary-color-text) !important;
+  border: none !important;
+  border-radius: var(--border-radius) !important;
+  padding: 0.5rem 1rem !important;
+  font-weight: 500 !important;
+  transition: var(--transition) !important;
+}
+
+.p-button:hover {
+  background: color.scale(#3f51b5, $lightness: -10%) !important;
+}
+
+.p-button:disabled {
+  opacity: 0.6 !important;
+  cursor: not-allowed !important;
+}
+
+/* Input Text */
+.p-inputtext {
+  border: 1px solid var(--surface-border) !important;
+  border-radius: var(--border-radius) !important;
+  padding: 0.5rem !important;
+  background: var(--surface) !important;
+  color: var(--text-color) !important;
+  font-size: 14px !important;
+  transition: var(--transition) !important;
+}
+
+.p-inputtext:focus {
+  border-color: var(--primary-color) !important;
+  box-shadow: 0 0 0 2px rgba(63, 81, 181, 0.1) !important;
+}
+
+/* Table */
+.p-datatable {
+  border: 1px solid var(--surface-border) !important;
+  border-radius: var(--border-radius) !important;
+  font-size: 14px !important;
+}
+
+.p-datatable-header,
+.p-datatable-footer {
+  background: var(--surface) !important;
+  border-bottom: 1px solid var(--surface-border) !important;
+  padding: 0.75rem !important;
+}
+
+.p-datatable-thead > tr > th {
+  background: #f8f9fa !important;
+  padding: 0.75rem !important;
+  font-weight: 600 !important;
+  color: var(--text-secondary-color) !important;
+}
+
+.p-datatable-tbody > tr > td {
+  padding: 0.75rem !important;
+}
+
+.p-datatable-tbody > tr:hover {
+  background: var(--hover-bg) !important;
+}
+
+/* Dialog */
+.p-dialog {
+  border-radius: var(--border-radius) !important;
+}
+
+.p-dialog .p-dialog-header {
+  background: var(--surface) !important;
+  border-bottom: 1px solid var(--surface-border) !important;
+  font-weight: 600 !important;
+}
+
+.p-dialog .p-dialog-content {
+  padding: 1rem !important;
+}
+
+.p-dialog .p-dialog-footer {
+  padding: 1rem !important;
+  border-top: 1px solid var(--surface-border) !important;
+  text-align: right !important;
+}
+
+/* Checkbox */
+.p-checkbox {
+  border: 1px solid var(--surface-border) !important;
+  border-radius: var(--border-radius) !important;
+}
+
+.p-checkbox-box.p-highlight {
+  background: var(--primary-color) !important;
+  border-color: var(--primary-color) !important;
+}
+
+/* Messages */
+
+.p-message {
+  border-radius: var(--border-radius) !important;
+  padding: 0.75rem 1rem !important;
+  font-size: 14px !important;
+}
+
+.p-message.p-message-info {
+  background: #e3f2fd !important;
+  border-color: #64b5f6 !important;
+  color: #0d47a1 !important;
+}
+
+
+/* Fix transparent dropdown panel background */
+.p-dropdown-panel {
+  background-color: white !important;
+  border: 1px solid #ccc;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* Fix transparent dropdown item background on hover */
+.p-dropdown-item {
+  background-color: white;
+}
+
+.p-dropdown-item.p-highlight {
+  background-color: #e0e0e0;
+  /* Highlighted option background */
+}
+
+.p-select-list {
+  background-color: rgb(234, 235, 233) !important;
+  border: 1px solid #ccc;
+  border-radius: 5px !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  padding-left: 15px !important;
+}
+.p-dropdown-items{
+  background-color: white !important;
+  border: 1px solid #e4b8b8;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  padding-left: 15px !important;
+  min-height: 100px;
+}
+.p-select-option {
+  padding-left: 5px !important;
+  transition: all 0.2s ease-in-out !important;
+  gap: 0.4rem !important;      /* ← Small gap between icon and text */
+  padding-left: 0.75rem !important;
+}
+.p-select-option:hover{
+  background-color: #c2bfbf !important;
+  transform: translateX(2px) !important; /* visual shift without changing layout */
+  padding-left: 5px !important;
+}
+
+.p-select-option:hover::after {
+  content: '✔' !important;
+  display: inline-block !important;
+  color: green !important;
+  font-size: 1rem !important;
 }

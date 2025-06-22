@@ -10,6 +10,15 @@ import { environment } from '../../../../environments/environment';
 import { CustomerInterface } from '../../../interfaces/customer.interface';
 import { ProductService } from '../../../services/product.service';
 import { Product } from '../../../interfaces/product.interface';
+//primeNGs
+import { ButtonModule } from 'primeng/button';
+import { InputTextModule } from 'primeng/inputtext';
+import { DropdownModule } from 'primeng/dropdown';
+import { InputNumberModule } from 'primeng/inputnumber';
+import { CalendarModule } from 'primeng/calendar';
+import { TextareaModule } from 'primeng/textarea';
+import { CardModule } from 'primeng/card';
+import { DividerModule } from 'primeng/divider';
 
 // Define typed item group
 type OrderItemFormGroup = FormGroup<{
@@ -35,10 +44,18 @@ type OrderFormGroup = FormGroup<{
   imports: [
     CommonModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    ButtonModule, //primeNg
+    InputTextModule, //primeNg
+    DropdownModule,
+    InputNumberModule,
+    CalendarModule,
+    TextareaModule,
+    CardModule,
+    DividerModule
   ],
   templateUrl: './fresh-order.component.html',
-  styleUrl: './fresh-order.component.scss'
+  styleUrl: './fresh-order.component.scss',
 })
 export class FreshOrderComponent {
   isProd = environment.production;
