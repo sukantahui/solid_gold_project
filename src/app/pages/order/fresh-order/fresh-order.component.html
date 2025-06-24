@@ -4,9 +4,13 @@
   <div class="row mb-3">
     <div class="col-md-6">
       <label for="customer" class="form-label">Customer</label>
-      <p-dropdown [options]="customers" optionLabel="customerName" optionValue="customerId"
-        placeholder="Select Customer" class="w-100" formControlName="customer">
-      </p-dropdown>
+      <!-- After -->
+      <select class="form-select" formControlName="customer">
+        <option value="" disabled selected>Select Customer</option>
+        <option *ngFor="let c of customers" [value]="c.customerId">
+          {{ c.customerName }}
+        </option>
+      </select>
     </div>
 
     <div class="col-md-6">

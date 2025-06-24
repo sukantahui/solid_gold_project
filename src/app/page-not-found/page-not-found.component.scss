@@ -1,6 +1,7 @@
 @use '@angular/material' as mat;
 // If you want Material theming, add:
-@include mat.core();
+@include mat.elevation-classes();
+@include mat.app-background();
 
 .logout-container {
   display: flex;
