@@ -25,7 +25,8 @@ type OrderItemFormGroup = FormGroup<{
 
 // Define typed root form
 type OrderFormGroup = FormGroup<{
-  customer: FormControl<string>;
+  customer: FormControl<number>;
+  customerName: FormControl<string>;
   orderDate: FormControl<Moment>;
   note: FormControl<string>;
   items: FormArray<OrderItemFormGroup>;
@@ -45,6 +46,8 @@ type OrderFormGroup = FormGroup<{
 export class FreshOrderComponent {
   isProd = environment.production;
   isDevMode = !environment.production;
+  filteredCustomers: CustomerInterface[] = [];
+  showSuggestions = false;
   showDevData = true;
   itemNoteVisibility: boolean[] = [];
   orderForm!: OrderFormGroup;
@@ -65,7 +68,8 @@ export class FreshOrderComponent {
     this.dateAdapter.setLocale('en-GB');
 
     this.orderForm = this.fb.nonNullable.group({
-      customer: this.fb.nonNullable.control('', Validators.required),
+      customer: this.fb.nonNullable.control<number>(null as any, Validators.required),
+      customerName: this.fb.nonNullable.control('', Validators.required), // used for input + display
       orderDate: this.fb.nonNullable.control(moment(), Validators.required),
       note: this.fb.nonNullable.control(''),
       items: this.fb.array<OrderItemFormGroup>([])
@@ -82,6 +86,36 @@ export class FreshOrderComponent {
   get items(): FormArray<OrderItemFormGroup> {
     return this.orderForm.get('items') as FormArray<OrderItemFormGroup>;
   }
+
+  
+  get customerNameControl(): FormControl<string> {
+    return this.orderForm.get('customerName') as FormControl<string>;
+  }
+  onCustomerNameInput(): void {
+    const name = this.orderForm.get('customerName')?.value.toLowerCase() || '';
+    this.filteredCustomers = this.customers?.filter(c =>
+      c.customerName.toLowerCase().includes(name)
+    ) || [];
+  }
+
+  selectCustomer(c: CustomerInterface): void {
+    this.orderForm.patchValue({
+      customer: c.customerId,
+      customerName: c.customerName
+    });
+
+    this.filteredCustomers = [];
+    this.showSuggestions = false;
+
+    // this.productService.getProductsWithRates(+c.customerId).subscribe(response => {
+    //   this.products = response.data;
+    // });
+  }
+
+  hideSuggestions(): void {
+    setTimeout(() => this.showSuggestions = false, 150);
+  }
+
 
   createOrderItem(): OrderItemFormGroup {
     return this.fb.group({

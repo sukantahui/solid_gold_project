@@ -2,15 +2,24 @@
   <h4 class="mb-4 text-success">📝 New Order Entry</h4>
 
   <div class="row mb-3">
-    <div class="col-md-6">
-      <label for="customer" class="form-label">Customer</label>
-      <!-- After -->
-      <select class="form-select" formControlName="customer">
-        <option value="" disabled selected>Select Customer</option>
-        <option *ngFor="let c of customers" [value]="c.customerId">
+    <div class="mb-3 position-relative">
+      <label class="form-label">Customer Name</label>
+      <input type="text" 
+        class="form-control" 
+        [formControl]="customerNameControl"
+        (input)="onCustomerNameInput()" 
+        (blur)="hideSuggestions()" 
+        (focus)="showSuggestions = true"
+        autocomplete="off" 
+      />
+
+      <!-- Suggestion dropdown -->
+      <ul class="list-group position-absolute w-100 z-3" *ngIf="showSuggestions && filteredCustomers.length > 0">
+        <li class="list-group-item list-group-item-action" *ngFor="let c of filteredCustomers"
+          (mousedown)="selectCustomer(c)">
           {{ c.customerName }}
-        </option>
-      </select>
+        </li>
+      </ul>
     </div>
 
     <div class="col-md-6">
@@ -93,7 +102,11 @@
           products: {{products | json}}
         </pre>
       </div>
-      <div class="p-2">Flex item 2</div>
+      <div class="p-2">
+        <pre>
+          orderForm={{orderForm.value | json}}
+        </pre>
+      </div>
       <div class="p-2">Flex item 3</div>
     </div>
   </div>
