@@ -1,7 +1,11 @@
 export interface Product {
-    productId?: number;
-    productName?: number;
-    productNumber?: string;
-    productCategoryId?: number;
-    priceCodeId?: number;
+  productId?: number;
+  productName?: string;
+  productNumber?: string;
+  productCategoryId?: number;
+  productCategoryName?: string;
+  priceCodeId?: number;
+  priceCodeName?: string;
+  wastegePercentage?: number;
+  labourCharge?: number;
 }

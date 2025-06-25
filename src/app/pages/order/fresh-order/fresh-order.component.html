@@ -1,20 +1,25 @@
 <form [formGroup]="orderForm" (ngSubmit)="onSubmit()" class="p-4 bg-white rounded shadow">
   <h4 class="mb-4 text-success">📝 New Order Entry</h4>
 
-  <div class="row mb-3">
-    <div class="mb-3 position-relative">
-      <label class="form-label">Customer Name</label>
-      <input type="text" 
-        class="form-control" 
-        [formControl]="customerNameControl"
-        (input)="onCustomerNameInput()" 
-        (blur)="hideSuggestions()" 
-        (focus)="showSuggestions = true"
-        autocomplete="off" 
-      />
+  <div class="row row-cols-1 row-cols-md-2 mb-3">
+    <!-- Customer Name -->
+    <div class="col-md-6 mb-3 position-relative">
+      <label for="customerName" class="form-label">Customer Name</label>
+      <input id="customerName" type="text" class="form-control" [formControl]="customerNameControl"
+        (input)="onCustomerNameInput()" (blur)="hideSuggestions()" (focus)="showSuggestions = true"
+        [class.is-invalid]="customerNameControl.invalid && customerNameControl.touched" autocomplete="off" />
+      <button *ngIf="orderForm.get('customer')?.value"
+        class="btn btn-sm btn-outline-secondary position-absolute top-0 end-0 mt-1 me-1" (click)="clearCustomer()"
+        type="button">
+        ✖
+      </button>
+      <div class="invalid-feedback" *ngIf="customerNameControl.invalid && customerNameControl.touched">
+        Customer name is required.
+      </div>
 
       <!-- Suggestion dropdown -->
-      <ul class="list-group position-absolute w-100 z-3" *ngIf="showSuggestions && filteredCustomers.length > 0">
+      <ul class="list-group position-absolute w-100 z-3 shadow" style="max-height: 200px; overflow-y: auto;"
+        *ngIf="showSuggestions && filteredCustomers.length > 0">
         <li class="list-group-item list-group-item-action" *ngFor="let c of filteredCustomers"
           (mousedown)="selectCustomer(c)">
           {{ c.customerName }}
@@ -22,11 +27,15 @@
       </ul>
     </div>
 
-    <div class="col-md-6">
-      <label for="orderDate" class="form-label">Order Date</label>
-      <input type="date" formControlName="orderDate" class="form-control" />
+    <!-- Order Date -->
+    <div class="col-md-3 mb-3">
+      <label for="orderDate" class="form-label">Order Date <small class="text-muted">📅 Today: {{ today
+          }}</small></label>
+      <input id="orderDate" type="date" formControlName="orderDate" class="form-control form-control-sm"
+        [attr.max]="today" />
     </div>
   </div>
+
 
   <div class="mb-3">
     <label for="note" class="form-label">Order Note</label>
@@ -34,10 +43,11 @@
   </div>
 
   <div formArrayName="items" *ngIf="products && products.length>0">
-    <div *ngFor="let item of items.controls; let i = index" [formGroupName]="i" class="border rounded p-3 mb-3">
+    <div *ngFor="let item of items.controls; let i = index; trackBy: trackByItemId"
+      class="border rounded p-3 mb-3 order-item" [formGroupName]="i">
       <div class="row g-2">
         <div class="col-md-3">
-          <label class="form-label">Product</label>
+          <label class="form-label">Product {{i}}</label>
           <select formControlName="productId" class="form-select">
             <option *ngFor="let p of products" [value]="p.productId">{{ p.productNumber }}</option>
           </select>
@@ -64,14 +74,15 @@
             🗑
           </button>
 
-          <button type="button" class="btn btn-secondary btn-sm" (click)="toggleNote(i)">
-            📝 {{ itemNoteVisibility[i] ? 'Hide' : 'Add' }} Note
+          <button type="button" class="btn btn-secondary btn-sm"
+            (click)="item.get('showNote')?.setValue(!item.get('showNote')?.value)">
+            📝 {{ item.get('showNote')?.value ? 'Hide' : 'Add' }} Note
           </button>
         </div>
 
 
         <!-- Conditionally Visible Note Field -->
-        <div class="col-md-12" *ngIf="itemNoteVisibility[i]">
+        <div class="col-md-12" *ngIf="item.get('showNote')?.value">
           <label class="form-label">Item Note</label>
           <textarea formControlName="note" rows="2" class="form-control"></textarea>
         </div>
@@ -83,9 +94,9 @@
     <button type="button" class="btn btn-outline-primary" (click)="addItem()">➕ Add Another Product</button>
   </div>
 
-  <div class="text-end">
-    <button class="btn btn-primary" type="submit" [disabled]="orderForm.invalid">✅ Submit Order</button>
-  </div>
+  <button type="submit" class="btn btn-primary px-4" [disabled]="orderForm.invalid">
+    ✅ Submit Order
+  </button>
 </form>
 
 <!-- 🔧 Developer Tools (only in development mode) -->
@@ -107,7 +118,11 @@
           orderForm={{orderForm.value | json}}
         </pre>
       </div>
-      <div class="p-2">Flex item 3</div>
+      <div class="p-2">
+        <pre>
+            products={{products | json}}
+        </pre>
+      </div>
     </div>
   </div>
 </div>
