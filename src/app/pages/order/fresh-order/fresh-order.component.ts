@@ -10,6 +10,7 @@ import { environment } from '../../../../environments/environment';
 import { CustomerInterface } from '../../../interfaces/customer.interface';
 import { ProductService } from '../../../services/product.service';
 import { Product } from '../../../interfaces/product.interface';
+import { v4 as uuidv4 } from 'uuid';
 //primeNGs
 
 
@@ -21,7 +22,8 @@ type OrderItemFormGroup = FormGroup<{
   wastage: FormControl<string>;
   size: FormControl<string>;
   note: FormControl<string>;
-  showNote: FormControl<boolean>; // 👈 Add this
+  showNote: FormControl<boolean>;
+  _uid: FormControl<string> // temporary UID
 }>;
 
 // Define typed root form
@@ -61,8 +63,8 @@ export class FreshOrderComponent {
   today = new Date().toISOString().split('T')[0];
   loadingProducts = false;
   constructor(private fb: FormBuilder, private dateAdapter: DateAdapter<any>, private productService: ProductService, private cdr: ChangeDetectorRef) { }
-  trackByItemId(index: number, group: AbstractControl): number | null {
-    return group.value?.productId ?? index;
+  trackByUid(index: number, group: AbstractControl): number {
+    return group.get('_uid')?.value ?? index;
   }
   toggleNote(index: number): void {
     this.itemNoteVisibility[index] = !this.itemNoteVisibility[index];
@@ -126,6 +128,8 @@ export class FreshOrderComponent {
 
 
   createOrderItem(): OrderItemFormGroup {
+    
+    const id = uuidv4();
     return this.fb.group({
       productId: this.fb.control<number | null>(null, Validators.required),
       quantity: this.fb.nonNullable.control(1, [Validators.required, Validators.min(1)]),
@@ -133,6 +137,7 @@ export class FreshOrderComponent {
       wastage: this.fb.nonNullable.control('', Validators.required),
       size: this.fb.nonNullable.control('0-0-0'),
       note: this.fb.nonNullable.control(''),
+      _uid: this.fb.nonNullable.control(id), // temporary UID
       showNote: this.fb.nonNullable.control(false),
     }) as OrderItemFormGroup;
   }

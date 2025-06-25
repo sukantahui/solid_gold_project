@@ -43,7 +43,7 @@
   </div>
 
   <div formArrayName="items" *ngIf="products && products.length>0">
-    <div *ngFor="let item of items.controls; let i = index; trackBy: trackByItemId"
+    <div *ngFor="let item of items.controls; let i = index; trackBy: trackByUid"
       class="border rounded p-3 mb-3 order-item" [formGroupName]="i">
       <div class="row g-2">
         <div class="col-md-3">
