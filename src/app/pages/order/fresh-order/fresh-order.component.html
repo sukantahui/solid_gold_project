@@ -5,14 +5,16 @@
     <!-- Customer Name -->
     <div class="col-md-6 mb-3 position-relative">
       <label for="customerName" class="form-label">Customer Name</label>
-      <input id="customerName" type="text" class="form-control" [formControl]="customerNameControl"
-        (input)="onCustomerNameInput()" (blur)="hideSuggestions()" (focus)="showSuggestions = true"
-        [class.is-invalid]="customerNameControl.invalid && customerNameControl.touched" autocomplete="off" />
-      <button *ngIf="orderForm.get('customer')?.value"
-        class="btn btn-sm btn-outline-secondary position-absolute top-0 end-0 mt-1 me-1" (click)="clearCustomer()"
-        type="button">
-        ✖
-      </button>
+      <div class="input-group position-relative">
+        <input id="customerName" type="text" class="form-control" [formControl]="customerNameControl"
+          (input)="onCustomerNameInput()" (blur)="hideSuggestions()" (focus)="showSuggestions = true"
+          [class.is-invalid]="customerNameControl.invalid && customerNameControl.touched" autocomplete="off" />
+        <button *ngIf="orderForm.get('customer')?.value"
+          class="btn btn-outline-secondary btn-sm position-absolute end-0 top-50 translate-middle-y me-2"
+          style="z-index: 2" (click)="clearCustomer()" type="button" title="Clear" aria-label="Clear input">
+          ✖
+        </button>
+      </div>
       <div class="invalid-feedback" *ngIf="customerNameControl.invalid && customerNameControl.touched">
         Customer name is required.
       </div>
