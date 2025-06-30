@@ -45,9 +45,10 @@
   <div formArrayName="items" *ngIf="products && products.length>0">
     <div *ngFor="let item of items.controls; let i = index; trackBy: trackByUid"
       class="border rounded p-3 mb-3 order-item" [formGroupName]="i">
+      <!-- row from here -->
       <div class="row g-2">
         <div class="col-md-3">
-          <label class="form-label">Product {{i}}</label>
+          <label class="form-label">Product {{i+1}}</label>
           <select formControlName="productId" class="form-select">
             <option *ngFor="let p of products" [value]="p.productId">{{ p.productNumber }}</option>
           </select>
@@ -86,6 +87,23 @@
           <label class="form-label">Item Note</label>
           <textarea formControlName="note" rows="2" class="form-control"></textarea>
         </div>
+      </div>
+    </div>
+    <!-- Total of orders are here  -->
+
+    <div class="row border-top pt-3 mt-3 text-end fw-bold">
+      <div class="col-md-3">Total</div>
+      <div class="col-md-1">
+        {{ getTotal('quantity') }}
+      </div>
+      <div class="col-md-2">
+        {{ getTotal('gini') }}
+      </div>
+      <div class="col-md-2">
+        {{ getTotal('wastage') }}
+      </div>
+      <div class="col-md-4 text-muted small fst-italic text-end">
+
       </div>
     </div>
   </div>

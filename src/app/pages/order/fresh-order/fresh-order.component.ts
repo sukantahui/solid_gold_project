@@ -128,7 +128,7 @@ export class FreshOrderComponent {
 
 
   createOrderItem(): OrderItemFormGroup {
-    
+
     const id = uuidv4();
     return this.fb.group({
       productId: this.fb.control<number | null>(null, Validators.required),
@@ -194,6 +194,14 @@ export class FreshOrderComponent {
         }
       }
     });
+  }
+
+  getTotal(field: 'quantity' | 'gini' | 'wastage'): number {
+    return this.items.controls.reduce((sum, group) => {
+      const rawValue = group.get(field)?.value;
+      const val = Number(rawValue);
+      return sum + (isNaN(val) ? 0 : val);
+    }, 0);
   }
 
   onSubmit(): void {
