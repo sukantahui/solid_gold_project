@@ -1,17 +1,18 @@
 <form [formGroup]="orderForm" (ngSubmit)="onSubmit()" class="p-4 bg-white rounded shadow">
   <h4 class="mb-4 text-success">📝 New Order Entry</h4>
 
-  <div class="row row-cols-1 row-cols-md-2 mb-3">
+  <div class="row row-cols-1 row-cols-md-2 mb-1">
     <!-- Customer Name -->
     <div class="col-md-6 mb-3 position-relative">
       <label for="customerName" class="form-label">Customer Name</label>
-      <div class="input-group position-relative">
+      <div class="d-flex align-items-center gap-2">
         <input id="customerName" type="text" class="form-control" [formControl]="customerNameControl"
           (input)="onCustomerNameInput()" (blur)="hideSuggestions()" (focus)="showSuggestions = true"
           [class.is-invalid]="customerNameControl.invalid && customerNameControl.touched" autocomplete="off" />
+
         <button *ngIf="orderForm.get('customer')?.value"
-          class="btn btn-outline-secondary btn-sm position-absolute end-0 top-50 translate-middle-y me-2"
-          style="z-index: 2" (click)="clearCustomer()" type="button" title="Clear" aria-label="Clear input">
+          class="btn btn-sm btn-light border rounded-circle p-0 d-flex align-items-center justify-content-center"
+          style="width: 28px; height: 28px;" type="button" (click)="clearCustomer()" title="Clear">
           ✖
         </button>
       </div>
@@ -46,10 +47,10 @@
 
   <div formArrayName="items" *ngIf="products && products.length>0">
     <div *ngFor="let item of items.controls; let i = index; trackBy: trackByUid"
-      class="border rounded p-3 mb-3 order-item" [formGroupName]="i">
+      class="border rounded p-3 mb-1 order-item" [formGroupName]="i">
       <!-- row from here -->
-      <div class="row g-2">
-        <div class="col-md-3">
+      <div class="row gx-1 gy-1">
+        <div class="col-md-1">
           <label class="form-label">Product {{i+1}}</label>
           <select formControlName="productId" class="form-select">
             <option *ngFor="let p of products" [value]="p.productId">{{ p.productNumber }}</option>
@@ -59,19 +60,19 @@
           <label class="form-label">Qty</label>
           <input type="number" formControlName="quantity" class="form-control" />
         </div>
-        <div class="col-md-2">
+        <div class="col-md-1">
           <label class="form-label">Gini</label>
           <input type="number" formControlName="gini" class="form-control" />
         </div>
-        <div class="col-md-2">
+        <div class="col-md-1">
           <label class="form-label">Wastage %</label>
           <input type="number" formControlName="wastage" class="form-control" />
         </div>
-        <div class="col-md-2">
+        <div class="col-md-1">
           <label class="form-label">Size</label>
           <input type="text" formControlName="size" class="form-control" />
         </div>
-        <div class="col-md-2 d-flex flex-column align-items-end justify-content-end gap-1">
+        <div class="col-md-2 d-flex justify-content-end align-items-end gap-1">
           <button class="btn btn-danger btn-sm" (click)="removeItem(i)" [disabled]="items.length === 1" type="button"
             title="Remove Item">
             🗑
@@ -93,30 +94,24 @@
     </div>
     <!-- Total of orders are here  -->
 
-    <div class="row border-top pt-3 mt-3 text-end fw-bold">
-      <div class="col-md-3">Total</div>
-      <div class="col-md-1">
-        {{ getTotal('quantity') }}
-      </div>
-      <div class="col-md-2">
-        {{ getTotal('gini') }}
-      </div>
-      <div class="col-md-2">
-        {{ getTotal('wastage') }}
-      </div>
-      <div class="col-md-4 text-muted small fst-italic text-end">
-
-      </div>
+    <div class="row border-top pt-2 mt-2 fw-bold align-items-center">
+      <div class="col-md-1"> Total </div>
+      <div class="col-md-1 text-end">{{ getTotal('quantity') }}</div>
+      <div class="col-md-1 text-end">{{ getTotal('gini') }}</div>
+      <div class="col-md-2"></div> <!-- For Size -->
     </div>
   </div>
 
-  <div class="text-start my-3">
-    <button type="button" class="btn btn-outline-primary" (click)="addItem()">➕ Add Another Product</button>
+  <div class="row my-3">
+    <div class="col d-flex flex-wrap justify-content-between gap-2">
+      <button type="button" class="btn btn-outline-primary" (click)="addItem()">
+        ➕ Add Another Product
+      </button>
+      <button type="submit" class="btn btn-primary px-4" [disabled]="orderForm.invalid">
+        ✅ Submit Order
+      </button>
+    </div>
   </div>
-
-  <button type="submit" class="btn btn-primary px-4" [disabled]="orderForm.invalid">
-    ✅ Submit Order
-  </button>
 </form>
 
 <!-- 🔧 Developer Tools (only in development mode) -->
@@ -139,9 +134,7 @@
         </pre>
       </div>
       <div class="p-2">
-        <pre>
-            products={{products | json}}
-        </pre>
+
       </div>
     </div>
   </div>
