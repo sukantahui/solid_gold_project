@@ -10,10 +10,10 @@
           (input)="onCustomerNameInput()" (blur)="hideSuggestions()" (focus)="showSuggestions = true"
           [class.is-invalid]="customerNameControl.invalid && customerNameControl.touched" autocomplete="off" />
 
-        <button *ngIf="orderForm.get('customer')?.value"
-          class="btn btn-sm btn-light border rounded-circle p-0 d-flex align-items-center justify-content-center"
-          style="width: 28px; height: 28px;" type="button" (click)="clearCustomer()" title="Clear">
-          ✖
+        <button *ngIf="orderForm.get('customer')?.value" type="button" (click)="clearCustomer()" title="Clear"
+          class="btn btn-sm btn-outline-danger rounded-circle d-flex align-items-center justify-content-center"
+          style="width: 28px; height: 28px; font-size: 0.8rem; line-height: 1;">
+          x
         </button>
       </div>
       <div class="invalid-feedback" *ngIf="customerNameControl.invalid && customerNameControl.touched">
