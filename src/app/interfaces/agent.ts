@@ -1,5 +1,6 @@
 export interface Agent {
     id?: number;
+    agentId: number;
     agentCategoryId?: number;
     agentName?: string;
     shortName?: string;

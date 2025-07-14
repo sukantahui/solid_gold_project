@@ -11,6 +11,7 @@ import { CustomerCategoryInterface } from '../../../interfaces/customer-category
 import { CustomerService } from '../../../services/customer.service';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import Swal from 'sweetalert2';
+import { Agent } from '../../../interfaces/agent';
 
 @Component({
   selector: 'app-new-customer',
@@ -33,11 +34,13 @@ export class NewCustomerComponent {
   customerForm: FormGroup;
   customerCategories: CustomerCategoryInterface[] = [];
   isLoading: boolean = false;
+  agents!: Agent[];
 
   constructor() {
     this.customerForm = this.fb.group({
       customerName: ['', [Validators.required, Validators.maxLength(100)]],
       customerCategoryId: [1, Validators.required],
+      agentId: [1, Validators.required],
       mailingName: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       phone: ['', [Validators.required, Validators.pattern(/^\d{10,15}$/)]],
@@ -53,6 +56,7 @@ export class NewCustomerComponent {
 
   ngOnInit(): void {
     this.customerCategories = this.route.snapshot.data?.['customerCategories']?.data || [];
+    this.agents = this.route.snapshot.data?.['agents']?.data || [];
     if (this.isDevMode) {
       console.log('Loaded categories:', this.customerCategories);
     }

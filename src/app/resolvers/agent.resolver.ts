@@ -6,10 +6,9 @@ import { finalize } from 'rxjs';
 import { Agent } from '../interfaces/agent';
 
 export const agentResolver: ResolveFn<Agent[]> = (route, state) => {
-  const service = inject(AgentService);
-      const spinnerService = inject(SpinnerService);
-      spinnerService.show();
-        return service.getAgents().pipe(
-          finalize(() => spinnerService.hide())
-        );
+  const spinnerService = inject(SpinnerService);
+  spinnerService.show();
+  return inject(AgentService).getAgents().pipe(
+    finalize(() => spinnerService.hide())
+  );
 };

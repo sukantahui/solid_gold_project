@@ -93,6 +93,7 @@ export const routes: Routes = [
             component: NewCustomerComponent,
             resolve: {
               customerCategories: customerCategoryResolver,
+              agents: agentResolver
             },
           },
           {
