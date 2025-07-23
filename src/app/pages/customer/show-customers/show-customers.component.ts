@@ -14,15 +14,17 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import Swal from 'sweetalert2';
 import { CustomerService } from '../../../services/customer.service';
 import { MatSelectModule } from '@angular/material/select';
+import { MatInputModule } from '@angular/material/input';
 @Component({
   selector: 'app-show-customers',
   imports: [
     CommonModule,
-    MatIconModule,
     ReactiveFormsModule,
-    MatButtonModule,
+    MatInputModule,
     MatSelectModule,
+    MatIconModule,
     MatFormFieldModule,
+    MatButtonModule,
   ],
   templateUrl: './show-customers.component.html',
   styleUrl: './show-customers.component.scss',
@@ -30,7 +32,7 @@ import { MatSelectModule } from '@angular/material/select';
 export class ShowCustomersComponent {
   showEditDiv = false;
   customerForm: FormGroup;
-  private fb = inject(FormBuilder);
+  private fb = inject(FormBuilder);                                                                           
   private customerService = inject(CustomerService);
   customerCategories: any;
   editCustomer(customer: CustomerInterface) {
