@@ -1,92 +1,221 @@
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { DateAdapter } from '@angular/material/core';
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { MatButtonModule } from '@angular/material/button';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatIconModule } from '@angular/material/icon';
-import { MatInputModule } from '@angular/material/input';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { MatSelectModule } from '@angular/material/select';
-import moment from 'moment';
+import { ChangeDetectorRef, Component, inject, ViewEncapsulation } from '@angular/core';
+import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import moment, { Moment } from 'moment';
+import { Agent } from '../../../interfaces/agent';
+import { ActivatedRoute } from '@angular/router';
+import { environment } from '../../../../environments/environment';
+import { CustomerInterface } from '../../../interfaces/customer.interface';
+import { ProductService } from '../../../services/product.service';
+import { Product } from '../../../interfaces/product.interface';
+import { v4 as uuidv4 } from 'uuid';
+//primeNGs
+
+
+// Define typed item group
+type OrderItemFormGroup = FormGroup<{
+  productId: FormControl<number | null>;
+  quantity: FormControl<number>;
+  gini: FormControl<string>;
+  wastage: FormControl<string>;
+  size: FormControl<string>;
+  note: FormControl<string>;
+  showNote: FormControl<boolean>;
+  _uid: FormControl<string> // temporary UID
+}>;
+
+// Define typed root form
+type OrderFormGroup = FormGroup<{
+  customer: FormControl<number | null>;
+  customerName: FormControl<string>;
+  orderDate: FormControl<string>;
+  note: FormControl<string>;
+  items: FormArray<OrderItemFormGroup>;
+}>;
 
 @Component({
   selector: 'app-fresh-order',
-  imports: [ReactiveFormsModule, CommonModule, MatProgressSpinnerModule,
-    ReactiveFormsModule,
-    MatInputModule,
-    MatSelectModule,
-    MatIconModule,
-    MatFormFieldModule,
-    MatButtonModule,
+  standalone: true,
+  imports: [
+    CommonModule,
     FormsModule,
-    MatDatepickerModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatSelectModule,
-    MatIconModule,
-    MatButtonModule],
+    ReactiveFormsModule,
+  ],
   templateUrl: './fresh-order.component.html',
-  styleUrl: './fresh-order.component.scss'
+  styleUrl: './fresh-order.component.scss',
 })
 export class FreshOrderComponent {
-  orderForm!: FormGroup;
-
-  customers = [
-    { id: 1, name: 'John Doe' },
-    { id: 2, name: 'Jane Smith' }
-  ];
-
-  products = [
-    { id: 1, name: 'Gold Ring' },
-    { id: 2, name: 'Gold Necklace' }
-  ];
-
-  constructor(private fb: FormBuilder, private dateAdapter: DateAdapter<any>) { }
-
+  isProd = environment.production;
+  isDevMode = !environment.production;
+  filteredCustomers: CustomerInterface[] = [];
+  showSuggestions = false;
+  showDevData = true;
+  itemNoteVisibility: boolean[] = [];
+  orderForm!: OrderFormGroup;
+  agents?: Agent[];
+  customers?: CustomerInterface[];
+  submitableData?: any;
+  products?: Product[];
+  private readonly route = inject(ActivatedRoute);
+  isVisible = true;
+  today = new Date().toISOString().split('T')[0];
+  loadingProducts = false;
+  constructor(private fb: FormBuilder, private dateAdapter: DateAdapter<any>, private productService: ProductService, private cdr: ChangeDetectorRef) { }
+  trackByUid(index: number, group: AbstractControl): number {
+    return group.get('_uid')?.value ?? index;
+  }
+  toggleNote(index: number): void {
+    this.itemNoteVisibility[index] = !this.itemNoteVisibility[index];
+  }
   ngOnInit(): void {
-    this.dateAdapter.setLocale('en-GB'); // Forces dd/MM/yyyy format
+    this.dateAdapter.setLocale('en-GB');
+
     this.orderForm = this.fb.group({
-      customer: ['', Validators.required],
-      orderDate: [moment(), Validators.required],
-      note: [''],
-      items: this.fb.array([])
+      customer: this.fb.control<number | null>(null, Validators.required), // ✅ valid
+      customerName: this.fb.nonNullable.control('', Validators.required),
+      orderDate: this.fb.nonNullable.control(this.today, Validators.required),
+      note: this.fb.nonNullable.control(''),
+      items: this.fb.array<OrderItemFormGroup>([])
     });
 
-    this.addItem(); // Add one default item
+    this.addItem();
 
-    console.log('orderDate:', this.orderForm.get('orderDate')?.value);
-    console.log('isMoment:', moment.isMoment(this.orderForm.get('orderDate')?.value));
+    this.agents = this.route.snapshot.data['agentsResolver']?.data || [];
+    this.customers = this.route.snapshot.data['customerResolver']?.data || [];
+
+    this.onCustomerChange(); // subscribe to customer change
   }
 
-  // Get items FormArray
-  get items(): FormArray {
-    return this.orderForm.get('items') as FormArray;
+  get items(): FormArray<OrderItemFormGroup> {
+    return this.orderForm.get('items') as FormArray<OrderItemFormGroup>;
   }
 
-  // Add a product item row
+
+  get customerNameControl(): FormControl<string> {
+    return this.orderForm.get('customerName') as FormControl<string>;
+  }
+  onCustomerNameInput(): void {
+    const name = this.orderForm.get('customerName')?.value.toLowerCase() || '';
+    this.filteredCustomers = this.customers?.filter(c =>
+      c.customerName.toLowerCase().includes(name)
+    ) || [];
+  }
+
+  selectCustomer(c: CustomerInterface): void {
+    this.orderForm.patchValue({
+      customer: c.customerId,
+      customerName: c.customerName
+    });
+
+    this.filteredCustomers = [];
+    this.showSuggestions = false;
+
+    // this.productService.getProductsWithRates(+c.customerId).subscribe(response => {
+    //   this.products = response.data;
+    // });
+  }
+  clearCustomer(): void {
+    this.orderForm.patchValue({ customer: null, customerName: '' });
+    this.filteredCustomers = [];
+    this.products = [];
+  }
+
+  hideSuggestions(): void {
+    setTimeout(() => this.showSuggestions = false, 150);
+  }
+
+
+  createOrderItem(): OrderItemFormGroup {
+
+    const id = uuidv4();
+    return this.fb.group({
+      productId: this.fb.control<number | null>(null, Validators.required),
+      quantity: this.fb.nonNullable.control(1, [Validators.required, Validators.min(1)]),
+      gini: this.fb.nonNullable.control('', Validators.required),
+      wastage: this.fb.nonNullable.control('', Validators.required),
+      size: this.fb.nonNullable.control('0-0-0'),
+      note: this.fb.nonNullable.control(''),
+      _uid: this.fb.nonNullable.control(id), // temporary UID
+      showNote: this.fb.nonNullable.control(false),
+    }) as OrderItemFormGroup;
+  }
+
   addItem(): void {
-    this.items.push(this.fb.group({
-      product: ['', Validators.required],
-      quantity: [1, [Validators.required, Validators.min(1)]],
-      gini: ['', Validators.required],
-      wastage: ['', Validators.required],
-      size: ['0-0-0']
-    }));
+    const itemGroup = this.createOrderItem();
+    this.items.push(itemGroup);
+
+    // 👇 Add a default visibility state
+    this.itemNoteVisibility.push(false);
+
+    // 👇 Use `itemGroup` directly instead of relying on index
+    itemGroup.get('productId')?.valueChanges.subscribe(productId => {
+      if (productId == null) return;
+
+      const selectedProduct = this.products?.find(p => p.productId === +productId);
+      const wastageControl = itemGroup.get('wastage'); // 👈 This is safe and stable
+
+      if (selectedProduct && wastageControl) {
+        wastageControl.setValue(String(selectedProduct.wastegePercentage ?? ''));
+      }
+    });
+
+    setTimeout(() => {
+      const lastItem = document.querySelector('.order-item:last-child');
+      lastItem?.scrollIntoView({ behavior: 'smooth' });
+    });
   }
 
-  // Remove a product item row
+
   removeItem(index: number): void {
     if (this.items.length > 1) {
       this.items.removeAt(index);
+      this.itemNoteVisibility.splice(index, 1); // Sync note visibility array
+      this.cdr.detectChanges(); // 👈 Force view update
     }
+  }
+
+  onCustomerChange(): void {
+    this.orderForm.get('customer')?.valueChanges.subscribe(customerId => {
+      console.log('Selected Customer ID:', customerId);
+
+      if (customerId != null) {
+        this.products = [];
+        this.loadingProducts = true;
+        this.productService.getProductsWithRates(+customerId).subscribe(response => {
+          this.products = response.data;
+          this.loadingProducts = false;
+        });
+
+        const selectedCustomer = this.customers?.find(c => c.customerId === customerId);
+        if (selectedCustomer) {
+          console.log('Selected Customer Object:', selectedCustomer);
+        }
+      }
+    });
+  }
+
+  getTotal(field: 'quantity' | 'gini' | 'wastage'): number {
+    return this.items.controls.reduce((sum, group) => {
+      const rawValue = group.get(field)?.value;
+      const val = Number(rawValue);
+      return sum + (isNaN(val) ? 0 : val);
+    }, 0);
   }
 
   onSubmit(): void {
     if (this.orderForm.valid) {
-      console.log('Order submitted:', this.orderForm.value);
-      // send to backend...
+      const raw = this.orderForm.value;
+
+      const formattedData = {
+        ...raw,
+        orderDate: raw.orderDate // already a string in "YYYY-MM-DD" format
+      };
+
+      this.submitableData = formattedData;
+      console.log('Order submitted:', formattedData);
+      // TODO: send formattedData to API...
     }
   }
 }

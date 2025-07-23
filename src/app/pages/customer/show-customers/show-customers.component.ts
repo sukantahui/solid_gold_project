@@ -30,6 +30,9 @@ import { MatInputModule } from '@angular/material/input';
   styleUrl: './show-customers.component.scss',
 })
 export class ShowCustomersComponent {
+  selectedCustomer: CustomerInterface | null = null;
+  isDevMode = isDevMode();
+  isDevAreaVisible = true;
   showEditDiv = false;
   customerForm: FormGroup;
   private fb = inject(FormBuilder);                                                                           
@@ -37,13 +40,26 @@ export class ShowCustomersComponent {
   customerCategories: any;
   editCustomer(customer: CustomerInterface) {
     this.showEditDiv = true;
-    console.log(customer);
+    this.selectedCustomer = customer;
+    this.customerForm.patchValue({
+      customerName: customer.customerName,
+      mailingName: customer.mailingName,
+     customerCategoryId: customer.category?.customerCategoryId,
+     email: customer.contact?.email,
+     phone: customer.contact?.phone,
+     mobile1: customer.contact?.mobile1,
+     mobile2: customer.contact?.mobile2,
+     whatsapp: customer.contact?.whatsapp,
+     address: customer.contact?.address,
+     pincode: customer.contact?.pinCode,
+    
+    });
   }
   cancelEditCustomer(){
     this.showEditDiv = false;
     this.customerForm.reset();
   }
-  isDevMode = isDevMode();
+  
   customers: CustomerInterface[] = [];
   private route = inject(ActivatedRoute);
   constructor() {
@@ -66,5 +82,8 @@ export class ShowCustomersComponent {
   ngOnInit(): void {
     this.customers = this.route.snapshot.data['customerResolver'].data;
     console.log('Loaded categories:', this.customers);
+  }
+  onSubmit() {
+
   }
 }

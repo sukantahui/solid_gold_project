@@ -26,8 +26,17 @@
         </mat-form-field>
 
       </div>
-
-
+      <!-- for Agent -->
+      <div class="row">
+          <mat-form-field appearance="outline" class="one-third-width">
+          <mat-label>Under the Agent of</mat-label>
+          <mat-select formControlName="agentId">
+            <mat-option *ngFor="let agent of agents" [value]="agent.agentId">
+              {{ agent.agentName }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
 
       <!-- Mailing Name -->
       <mat-form-field appearance="outline" class="full-width">
@@ -63,7 +72,7 @@
       </mat-form-field>
 
       <div class="row">
-        
+
 
         <!-- Mobile 1 -->
         <mat-form-field appearance="outline" class="third-width">
@@ -134,6 +143,7 @@
       <div id="development-div" style="margin-top: 20px; background: #333; color: #0f0; padding: 1rem;">
         <h4>Form Debug (Dev Mode)</h4>
         <pre>{{ customerForm.value | json }}</pre>
+        <pre>Agents: {{ agents | json }}</pre>
       </div>
     </ng-container>
   </div>

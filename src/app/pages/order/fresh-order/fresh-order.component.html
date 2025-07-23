@@ -1,98 +1,141 @@
-<div class="container mt-4">
-  <form [formGroup]="orderForm" (ngSubmit)="onSubmit()" class="bg-white p-4 shadow rounded">
+<form [formGroup]="orderForm" (ngSubmit)="onSubmit()" class="p-4 bg-white rounded shadow">
+  <h4 class="mb-4 text-success">📝 New Order Entry</h4>
 
-    <h4 class="mb-3">New Order Entry</h4>
-    <p>{{ orderForm.get('orderDate')?.value | json }}</p>
-    <!-- Customer & Order Date -->
-    <div class="row mb-3">
-      <div class="col-md-6">
-        <mat-form-field appearance="fill" class="w-100">
-          <mat-label>Customer</mat-label>
-          <mat-select formControlName="customer">
-            <mat-option *ngFor="let c of customers" [value]="c.id">{{ c.name }}</mat-option>
-          </mat-select>
-        </mat-form-field>
+  <div class="row row-cols-1 row-cols-md-2 mb-1">
+    <!-- Customer Name -->
+    <div class="col-md-6 mb-3 position-relative">
+      <label for="customerName" class="form-label">Customer Name</label>
+      <div class="d-flex align-items-center gap-2">
+        <input id="customerName" type="text" class="form-control" [formControl]="customerNameControl"
+          (input)="onCustomerNameInput()" (blur)="hideSuggestions()" (focus)="showSuggestions = true"
+          [class.is-invalid]="customerNameControl.invalid && customerNameControl.touched" autocomplete="off" />
+
+        <button *ngIf="orderForm.get('customer')?.value" type="button" (click)="clearCustomer()" title="Clear"
+          class="btn btn-sm btn-outline-danger rounded-circle d-flex align-items-center justify-content-center"
+          style="width: 28px; height: 28px; font-size: 0.8rem; line-height: 1;">
+          x
+        </button>
+      </div>
+      <div class="invalid-feedback" *ngIf="customerNameControl.invalid && customerNameControl.touched">
+        Customer name is required.
       </div>
 
-      <div class="col-md-6">
-        <mat-form-field appearance="fill">
-          <mat-label>Order Date</mat-label>
-          <input matInput [matDatepicker]="picker" formControlName="orderDate">
-          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-          <mat-datepicker #picker></mat-datepicker>
-        </mat-form-field>
-      </div>
+      <!-- Suggestion dropdown -->
+      <ul class="list-group position-absolute w-100 z-3 shadow" style="max-height: 200px; overflow-y: auto;"
+        *ngIf="showSuggestions && filteredCustomers.length > 0">
+        <li class="list-group-item list-group-item-action" *ngFor="let c of filteredCustomers"
+          (mousedown)="selectCustomer(c)">
+          {{ c.customerName }}
+        </li>
+      </ul>
     </div>
 
-    <!-- Order Note -->
-    <mat-form-field appearance="fill" class="w-100 mb-3">
-      <mat-label>Order Note</mat-label>
-      <textarea matInput formControlName="note" rows="2"></textarea>
-    </mat-form-field>
+    <!-- Order Date -->
+    <div class="col-md-3 mb-3">
+      <label for="orderDate" class="form-label">Order Date <small class="text-muted">📅 Today: {{ today
+          }}</small></label>
+      <input id="orderDate" type="date" formControlName="orderDate" class="form-control form-control-sm"
+        [attr.max]="today" />
+    </div>
+  </div>
 
-    <h5 class="mt-4">Product Items</h5>
 
-    <div formArrayName="items">
-      <div *ngFor="let item of items.controls; let i = index" [formGroupName]="i"
-        class="row align-items-end mb-3 border-bottom pb-3">
+  <div class="mb-3">
+    <label for="note" class="form-label">Order Note</label>
+    <textarea formControlName="note" rows="2" class="form-control"></textarea>
+  </div>
 
-        <div class="col-md-3">
-          <mat-form-field appearance="fill" class="w-100">
-            <mat-label>Product</mat-label>
-            <mat-select formControlName="product">
-              <mat-option *ngFor="let p of products" [value]="p.id">{{ p.name }}</mat-option>
-            </mat-select>
-          </mat-form-field>
-        </div>
-
+  <div formArrayName="items" *ngIf="products && products.length>0">
+    <div *ngFor="let item of items.controls; let i = index; trackBy: trackByUid"
+      class="border rounded p-3 mb-1 order-item" [formGroupName]="i">
+      <!-- row from here -->
+      <div class="row gx-1 gy-1">
         <div class="col-md-1">
-          <mat-form-field appearance="fill" class="w-100">
-            <mat-label>Qty</mat-label>
-            <input matInput type="number" formControlName="quantity">
-          </mat-form-field>
+          <label class="form-label">Product {{i+1}}</label>
+          <select formControlName="productId" class="form-select">
+            <option *ngFor="let p of products" [value]="p.productId">{{ p.productNumber }}</option>
+          </select>
         </div>
-
-        <div class="col-md-2">
-          <mat-form-field appearance="fill" class="w-100">
-            <mat-label>Gini</mat-label>
-            <input matInput type="number" formControlName="gini">
-          </mat-form-field>
+        <div class="col-md-1">
+          <label class="form-label">Qty</label>
+          <input type="number" formControlName="quantity" class="form-control" />
         </div>
-
-        <div class="col-md-2">
-          <mat-form-field appearance="fill" class="w-100">
-            <mat-label>Wastage %</mat-label>
-            <input matInput type="number" formControlName="wastage">
-          </mat-form-field>
+        <div class="col-md-1">
+          <label class="form-label">Gini</label>
+          <input type="number" formControlName="gini" class="form-control" />
         </div>
-
-        <div class="col-md-2">
-          <mat-form-field appearance="fill" class="w-100">
-            <mat-label>Size</mat-label>
-            <input matInput type="text" formControlName="size">
-          </mat-form-field>
+        <div class="col-md-1">
+          <label class="form-label">Wastage %</label>
+          <input type="number" formControlName="wastage" class="form-control" />
         </div>
+        <div class="col-md-1">
+          <label class="form-label">Size</label>
+          <input type="text" formControlName="size" class="form-control" />
+        </div>
+        <div class="col-md-2 d-flex justify-content-end align-items-end gap-1">
+          <button class="btn btn-danger btn-sm" (click)="removeItem(i)" [disabled]="items.length === 1" type="button"
+            title="Remove Item">
+            🗑
+          </button>
 
-        <div class="col-md-2 text-end">
-          <button mat-icon-button color="warn" (click)="removeItem(i)" [disabled]="items.length === 1"
-            matTooltip="Remove Item">
-            <mat-icon>delete</mat-icon>
+          <button type="button" class="btn btn-secondary btn-sm"
+            (click)="item.get('showNote')?.setValue(!item.get('showNote')?.value)">
+            📝 {{ item.get('showNote')?.value ? 'Hide' : 'Add' }} Note
           </button>
         </div>
+
+
+        <!-- Conditionally Visible Note Field -->
+        <div class="col-md-12" *ngIf="item.get('showNote')?.value">
+          <label class="form-label">Item Note</label>
+          <textarea formControlName="note" rows="2" class="form-control"></textarea>
+        </div>
       </div>
     </div>
+    <!-- Total of orders are here  -->
 
-    <!-- Add More Items -->
-    <div class="text-start mb-3">
-      <button mat-stroked-button color="primary" type="button" (click)="addItem()">
-        <mat-icon>add</mat-icon> Add Another Product
+    <div class="row border-top pt-2 mt-2 fw-bold align-items-center">
+      <div class="col-md-1"> Total </div>
+      <div class="col-md-1 text-end">{{ getTotal('quantity') }}</div>
+      <div class="col-md-1 text-end">{{ getTotal('gini') }}</div>
+      <div class="col-md-2"></div> <!-- For Size -->
+    </div>
+  </div>
+
+  <div class="row my-3">
+    <div class="col d-flex flex-wrap justify-content-between gap-2">
+      <button type="button" class="btn btn-outline-primary" (click)="addItem()">
+        ➕ Add Another Product
+      </button>
+      <button type="submit" class="btn btn-primary px-4" [disabled]="orderForm.invalid">
+        ✅ Submit Order
       </button>
     </div>
+  </div>
+</form>
 
-    <div class="text-end">
-      <button mat-raised-button color="primary" type="submit" [disabled]="orderForm.invalid">
-        Submit Order
-      </button>
+<!-- 🔧 Developer Tools (only in development mode) -->
+<div *ngIf="isProd" class="mt-4">
+  <button class="btn btn-outline-secondary mb-2" (click)="showDevData = !showDevData">
+    {{ showDevData ? 'Hide' : 'Show' }} Developer Data
+  </button>
+
+  <div *ngIf="showDevData" class="border rounded p-3 bg-light">
+    <h5 class="text-muted">🛠️ Developer Working Data</h5>
+    <div class="d-flex flex-row">
+      <div class="p-2">
+        <pre>
+          products: {{products | json}}
+        </pre>
+      </div>
+      <div class="p-2">
+        <pre>
+          orderForm={{orderForm.value | json}}
+        </pre>
+      </div>
+      <div class="p-2">
+
+      </div>
     </div>
-  </form>
+  </div>
 </div>

@@ -1,4 +1,11 @@
-@import 'animate.css/animate.min.css';
+
+
+
+
+
+
+
+
 
 .swal2-popup {
   border-radius: 0.5rem !important;
@@ -23,12 +30,69 @@
 /* You can add global styles to this file, and also import other style files */
 @media (forced-colors: active) {
   * {
-    forced-color-adjust: none; /* Optional: Prevents forced colors on specific elements */
+    forced-color-adjust: none;
+    /* Optional: Prevents forced colors on specific elements */
   }
 }
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+html,
+body {
+  height: 100%;
+}
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+
+.styled-field .mat-form-field-label,
+.styled-field .mat-input-element,
+.styled-field .mat-select-value,
+.styled-field .mat-select-value-text {
+  color: green !important;
+}
+
+.styled-field .mat-form-field-outline-start path,
+.styled-field .mat-form-field-outline-end path {
+  stroke: green !important;
+}
+
+
+
+
+
+
+
+
+
+
+
+.p-select-option {
+  padding-left: 5px !important;
+  transition: all 0.2s ease-in-out !important;
+  gap: 0.4rem !important;      /* ← Small gap between icon and text */
+  padding-left: 0.75rem !important;
+}
+.p-select-option:hover{
+  background-color: #c2bfbf !important;
+  transform: translateX(2px) !important; /* visual shift without changing layout */
+  padding-left: 5px !important;
+}
+
+.p-select-option:hover::after {
+  content: '✔' !important;
+  display: inline-block !important;
+  color: green !important;
+  font-size: 1rem !important;
+}
