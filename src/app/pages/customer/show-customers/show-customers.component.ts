@@ -30,6 +30,9 @@ import { MatInputModule } from '@angular/material/input';
   styleUrl: './show-customers.component.scss',
 })
 export class ShowCustomersComponent {
+updateCustomer() {
+  
+}
   selectedCustomer: CustomerInterface | null = null;
   isDevMode = isDevMode();
   isDevAreaVisible = true;
@@ -81,7 +84,7 @@ export class ShowCustomersComponent {
 
   ngOnInit(): void {
     this.customers = this.route.snapshot.data['customerResolver'].data;
-    console.log('Loaded categories:', this.customers);
+    this.customerCategories = this.route.snapshot.data?.['customerCategories']?.data || [];
   }
   onSubmit() {
 

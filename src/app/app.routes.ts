@@ -101,6 +101,8 @@ export const routes: Routes = [
             component: ShowCustomersComponent,
             resolve: {
               customerResolver: customerResolver,
+              customerCategories: customerCategoryResolver,
+              agents: agentResolver
             },
           },
 
